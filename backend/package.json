@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "@auth/core": "^0.34.2",
+    "@prisma/client": "^6.11.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "next-auth": "^4.24.11",
+    "pg": "^8.16.3",
+    "zod": "^4.0.5"
+  },
+  "devDependencies": {
+    "prisma": "^6.11.1"
+  }
+}
