@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -49,6 +48,90 @@ const Index = () => {
     return matchesSearch && matchesCategory;
   });
 
+  // If user is not signed in, show only app name, slogan, and sign in option
+
+  // Landing Page Component
+// if (!user) {
+//   return (
+//     <div
+//       className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-50 to-indigo-100"
+//     >
+//       {/* Header Section */}
+//       <div className="flex items-center space-x-2 mb-12">
+//         <div
+//           className="w-8 h-8 bg-gradient-to-r from-black to-red-600 rounded-lg flex items-center justify-center"
+//         >
+//           <Search className="w-5 h-5 text-white" />
+//         </div>
+//         <h1
+//           className="text-4xl font-bold bg-gradient-to-r from-black to-red-600 bg-clip-text text-transparent"
+//         >
+//           Lost & Found
+//         </h1>
+//       </div>
+
+//       {/* Tagline Section */}
+//       <h2
+//         className="text-3xl text-gray-700 mb-6 text-center max-w-md"
+//       >
+//         Find What You've Lost, Help Others Find Theirs
+//       </h2>
+
+//       {/* Description Section */}
+//       <p
+//         className="text-2xl text-gray-600 mb-12 max-w-3xl mx-auto text-center"
+//       >
+//         Our digital lost property system connects people with their missing belongings through smart matching and community support.
+//       </p>
+
+//       {/* Call-to-Action Section */}
+//       <Button size="lg" onClick={() => setIsAuthModalOpen(true)}>
+//         Sign In
+//       </Button>
+
+//       {/* Authentication Modal */}
+//       <AuthModal
+//         isOpen={isAuthModalOpen}
+//         onClose={() => setIsAuthModalOpen(false)}
+//       />
+//     </div>
+//   );
+// }
+if (!user) {
+  return (
+    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-100 via-indigo-100 to-purple-100 px-4">
+      <div className="flex flex-col items-center bg-white/80 rounded-2xl shadow-xl p-10 md:p-16 mb-8 border border-gray-100">
+        <div className="flex items-center space-x-3 mb-6">
+          <div className="w-14 h-14 bg-gradient-to-r from-black to-red-600 rounded-xl flex items-center justify-center shadow-lg">
+            <Search className="w-7 h-7 text-white" />
+          </div>
+          <h1 className="text-5xl font-extrabold bg-gradient-to-r from-black to-red-600 bg-clip-text text-transparent tracking-tight drop-shadow">
+            Lost & Found
+          </h1>
+        </div>
+        <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-4 text-center max-w-lg">
+          Find What You've Lost, Help Others Find Theirs
+        </h2>
+        <p className="text-lg md:text-2xl text-gray-600 mb-10 max-w-2xl text-center">
+          Our digital lost property system connects people with their missing belongings through smart matching and community support.
+        </p>
+        <Button
+          size="lg"
+          className="bg-gradient-to-r from-black to-red-600 text-white text-lg px-8 py-4 rounded-full shadow hover:from-red-700 hover:to-black transition"
+          onClick={() => setIsAuthModalOpen(true)}
+        >
+          Sign In
+        </Button>
+      </div>
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+      />
+    </div>
+  );
+}
+
+  // If user is signed in, render the rest of the app (original content)
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Header */}
@@ -56,10 +139,10 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-gradient-to-r from-black to-red-600 rounded-lg flex items-center justify-center">
                 <Search className="w-5 h-5 text-white" />
               </div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-black to-red-600 bg-clip-text text-transparent">
                 Lost & Found
               </h1>
             </div>
