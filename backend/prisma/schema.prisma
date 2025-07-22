@@ -17,10 +17,18 @@ model User {
 }
 
 model Item {
-  id        String   @id @default(uuid())
-  name      String
-  description String?
-  ownerId   String
-  owner     User     @relation(fields: [ownerId], references: [id])
-  createdAt DateTime @default(now())
+  id           String   @id @default(uuid())
+  title        String
+  description  String?
+  category     String
+  type         String
+  status       String
+  location     String
+  dateReported DateTime @default(now())
+  dateOccurred DateTime
+  images       String[] // PostgreSQL supports array types
+  tags         String[]
+  ownerId      String
+  owner        User     @relation(fields: [ownerId], references: [id])
+  createdAt    DateTime @default(now())
 }
