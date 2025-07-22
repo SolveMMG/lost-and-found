@@ -7,14 +7,14 @@ async function main() {
   const password1 = await bcrypt.hash('password123', 10);
   const password2 = await bcrypt.hash('adminpass456', 10);
 
-  // Create users
-  const user1 = await prisma.user.upsert({
+const user1 = await prisma.user.upsert({
     where: { email: 'john@email.com' },
     update: {},
     create: {
       email: 'john@email.com',
       name: 'John Doe',
       password: password1,
+      isAdmin: false,
     },
   });
 
@@ -25,9 +25,9 @@ async function main() {
       email: 'admin@email.com',
       name: 'Admin User',
       password: password2,
+      isAdmin: true, 
     },
   });
-
   // Create items
   await prisma.item.createMany({
     data: [
