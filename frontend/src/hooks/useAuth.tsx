@@ -1,163 +1,76 @@
+import { createContext, useContext, useState } from "react";
+import { toast } from "@/hooks/use-toast";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useToast } from "@/hooks/use-toast";
+const AuthContext = createContext(null);
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: 'user' | 'admin';
-  createdAt: Date;
-}
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(() => {
+    const stored = localStorage.getItem("user");
+    return stored ? JSON.parse(stored) : null;
+  });
+  const [token, setToken] = useState(() => localStorage.getItem("token") || "");
 
-interface AuthContextType {
-  user: User | null;
-  isAdmin: boolean;
-  login: (email: string, password: string) => Promise<boolean>;
-  register: (name: string, email: string, password: string) => Promise<boolean>;
-  logout: () => void;
-  loading: boolean;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-  const { toast } = useToast();
-
-  // Mock users for demo
-  const mockUsers = [
-    {
-      id: '1',
-      name: 'John Doe',
-      email: 'user@demo.com',
-      password: 'password',
-      role: 'user' as const,
-      createdAt: new Date()
-    },
-    {
-      id: '2',
-      name: 'Admin User',
-      email: 'admin@demo.com',
-      password: 'admin',
-      role: 'admin' as const,
-      createdAt: new Date()
-    }
-  ];
-
-  useEffect(() => {
-    // Check for stored user
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-    setLoading(false);
-  }, []);
-
-  const login = async (email: string, password: string): Promise<boolean> => {
+  const register = async (name: string, email: string, password: string) => {
     try {
-      const foundUser = mockUsers.find(u => u.email === email && u.password === password);
-      
-      if (foundUser) {
-        const { password: _, ...userWithoutPassword } = foundUser;
-        setUser(userWithoutPassword);
-        localStorage.setItem('user', JSON.stringify(userWithoutPassword));
-        
-        toast({
-          title: "Login successful",
-          description: `Welcome back, ${foundUser.name}!`,
-        });
-        
-        return true;
-      } else {
-        toast({
-          title: "Login failed",
-          description: "Invalid email or password",
-          variant: "destructive",
-        });
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast({ title: "Registration failed", description: data.error || "Error", variant: "destructive" });
         return false;
       }
-    } catch (error) {
-      toast({
-        title: "Login error",
-        description: "An error occurred during login",
-        variant: "destructive",
-      });
+      setUser(data.user);
+      setToken(data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("token", data.token);
+      toast({ title: "Registration successful", description: `Welcome, ${data.user.name || data.user.email}!` });
+      return true;
+    } catch {
+      toast({ title: "Registration error", description: "An error occurred", variant: "destructive" });
       return false;
     }
   };
 
-  const register = async (name: string, email: string, password: string): Promise<boolean> => {
+  const login = async (email: string, password: string) => {
     try {
-      // Check if user already exists
-      const existingUser = mockUsers.find(u => u.email === email);
-      if (existingUser) {
-        toast({
-          title: "Registration failed",
-          description: "User with this email already exists",
-          variant: "destructive",
-        });
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast({ title: "Login failed", description: data.error || "Error", variant: "destructive" });
         return false;
       }
-
-      // Create new user
-      const newUser = {
-        id: Date.now().toString(),
-        name,
-        email,
-        role: 'user' as const,
-        createdAt: new Date()
-      };
-
-      setUser(newUser);
-      localStorage.setItem('user', JSON.stringify(newUser));
-      
-      toast({
-        title: "Registration successful",
-        description: `Welcome, ${name}!`,
-      });
-      
+      setUser(data.user);
+      setToken(data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("token", data.token);
+      toast({ title: "Login successful", description: `Welcome back, ${data.user.name || data.user.email}!` });
       return true;
-    } catch (error) {
-      toast({
-        title: "Registration error",
-        description: "An error occurred during registration",
-        variant: "destructive",
-      });
+    } catch {
+      toast({ title: "Login error", description: "An error occurred", variant: "destructive" });
       return false;
     }
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('user');
-    toast({
-      title: "Logged out",
-      description: "You have been successfully logged out",
-    });
+    setToken("");
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    toast({ title: "Logged out", description: "You have been logged out." });
   };
 
-  const isAdmin = user?.role === 'admin';
-
   return (
-    <AuthContext.Provider value={{
-      user,
-      isAdmin,
-      login,
-      register,
-      logout,
-      loading
-    }}>
+    <AuthContext.Provider value={{ user, token, register, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
+export const useAuth = () => useContext(AuthContext);

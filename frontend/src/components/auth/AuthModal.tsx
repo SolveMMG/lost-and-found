@@ -122,8 +122,8 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
                 <div className="mt-4 p-3 bg-blue-50 rounded-lg">
                   <p className="text-sm text-blue-800 font-medium mb-2">Demo Accounts:</p>
                   <div className="text-xs text-blue-700 space-y-1">
-                    <div>User: user@demo.com / password</div>
-                    <div>Admin: admin@demo.com / admin</div>
+                    <div>User: john@email.com / password123</div>
+                    <div>Admin: admin@email.com / adminpass456</div>
                   </div>
                 </div>
               </CardContent>
