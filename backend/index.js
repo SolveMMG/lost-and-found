@@ -9,6 +9,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Serve images statically
+const path = require('path');
+app.use('/images', express.static(path.join(__dirname, 'prisma/images')));
+
 app.use('/api/auth', authRoutes);
 app.use('/api/items', itemsRoutes);
 

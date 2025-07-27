@@ -31,6 +31,7 @@ model Item {
   tags        String[]
   reporterId  String
   ownerId     String?
+  isClaimed   Boolean  @default(false)
   reporter    User     @relation("ReportedItems", fields: [reporterId], references: [id])
   owner       User?    @relation("OwnedItems", fields: [ownerId], references: [id])
 }

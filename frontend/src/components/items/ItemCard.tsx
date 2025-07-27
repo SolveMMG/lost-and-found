@@ -10,10 +10,10 @@ import { cn } from "@/lib/utils";
 interface ItemCardProps {
   item: Item;
   onViewDetails?: () => void;
-  onContact?: () => void;
+  onClaim?: () => void;
 }
 
-const ItemCard = ({ item, onViewDetails, onContact }: ItemCardProps) => {
+const ItemCard = ({ item, onViewDetails, onClaim }: ItemCardProps) => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'verified':
@@ -61,7 +61,11 @@ const ItemCard = ({ item, onViewDetails, onContact }: ItemCardProps) => {
         {item.images && item.images.length > 0 && (
           <div className="mb-4">
             <img
-              src={item.images[0]}
+              src={
+                item.images[0].startsWith('http')
+                  ? item.images[0]
+                  : `/images/${item.images[0]}`
+              }
               alt={item.title}
               className="w-full h-40 object-cover rounded-lg bg-gray-100"
             />
@@ -108,9 +112,9 @@ const ItemCard = ({ item, onViewDetails, onContact }: ItemCardProps) => {
             <Eye className="w-4 h-4 mr-2" />
             View Details
           </Button>
-          <Button variant="outline" size="sm" className="flex-1" onClick={onContact}>
+          <Button variant="outline" size="sm" className="flex-1" onClick={onClaim}>
             <MessageCircle className="w-4 h-4 mr-2" />
-            Contact
+            Claim
           </Button>
         </div>
       </CardContent>

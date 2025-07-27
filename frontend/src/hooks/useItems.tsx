@@ -111,34 +111,58 @@ export const useItems = () => {
     }
   };
 
+
   const updateItemStatus = async (itemId: string, status: Item['status'], token?: string) => {
-  const res = await fetch(`/api/items/${itemId}/status`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
-    body: JSON.stringify({ status }),
-  });
+    const res = await fetch(`/api/items/${itemId}/status`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify({ status }),
+    });
 
-  if (!res.ok) throw new Error("Failed to update item status");
+    if (!res.ok) throw new Error("Failed to update item status");
 
-  setItems(prev => prev.map(item => 
-    item.id === itemId ? { ...item, status } : item
-  ));
+    setItems(prev => prev.map(item => 
+      item.id === itemId ? { ...item, status } : item
+    ));
 
-  toast({
-    title: "Item status updated",
-    description: `Item status changed to ${status}`,
-  });
-};
+    toast({
+      title: "Item status updated",
+      description: `Item status changed to ${status}`,
+    });
+  };
+
+  const verifyClaimedItem = async (itemId: string, ownerId: string, token?: string) => {
+    const res = await fetch(`/api/items/${itemId}/verify`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify({ ownerId }),
+    });
+
+    if (!res.ok) throw new Error("Failed to verify claimed item");
+
+    setItems(prev => prev.map(item => 
+      item.id === itemId ? { ...item, ownerId, status: 'verified', isClaimed: true } : item
+    ));
+
+    toast({
+      title: "Item verified and owner assigned",
+      description: `Item has been verified and assigned to the owner.`,
+    });
+  };
 
   return {
     items,
     loading,
     searchItems,
     addItem,
-    updateItemStatus
+    updateItemStatus,
+    verifyClaimedItem
   };
 };
 

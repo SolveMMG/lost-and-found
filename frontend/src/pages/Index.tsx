@@ -14,6 +14,7 @@ import NotificationCenter from '@/components/notifications/NotificationCenter';
 import { useAuth } from '@/hooks/useAuth';
 import { useItems, Item } from '@/hooks/useItems';
 import ItemDetailsModal from '@/components/items/ItemDetailsModal';
+import ClaimItemModal from '@/components/items/ClaimItemModal';
 
 const Index = () => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -27,6 +28,7 @@ const Index = () => {
   const { user, isAdmin, logout } = useAuth();
   const { items, loading, searchItems } = useItems();
   const { toast } = useToast();
+  const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
 
 
   const categories = ['all', 'electronics', 'clothing', 'accessories', 'documents', 'keys', 'bags', 'other'];
@@ -53,6 +55,7 @@ const handleViewDetails = (item: Item) => {
  // Filter items in-memory after fetching
   const filteredItems = items.filter(item => {
     if (!item || typeof item.title !== "string" || typeof item.description !== "string") return false;
+    if (item.status !== 'verified') return false;
     const matchesSearch =
       item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.description.toLowerCase().includes(searchQuery.toLowerCase());
@@ -250,9 +253,9 @@ const handleViewDetails = (item: Item) => {
                     key={item.id}
                     item={item}
                     onViewDetails={() => handleViewDetails(item)}
-                    onContact={() => {
+                    onClaim={() => {
                       setSelectedItem(item);
-                      setIsDetailsOpen(true); // Reuse details modal for contact info
+                      setIsClaimModalOpen(true);
                     }}
                   />
                 ))
@@ -308,9 +311,9 @@ const handleViewDetails = (item: Item) => {
                             key={item.id}
                             item={item}
                             onViewDetails={() => handleViewDetails(item)}
-                            onContact={() => {
+                            onClaim={() => {
                               setSelectedItem(item);
-                              setIsDetailsOpen(true);
+                              setIsClaimModalOpen(true);
                             }}
                           />
                         ))
@@ -360,6 +363,11 @@ const handleViewDetails = (item: Item) => {
       <ItemDetailsModal
         isOpen={isDetailsOpen}
         onClose={() => setIsDetailsOpen(false)}
+        item={selectedItem}
+      />
+      <ClaimItemModal
+        isOpen={isClaimModalOpen}
+        onClose={() => setIsClaimModalOpen(false)}
         item={selectedItem}
       />
     </div>

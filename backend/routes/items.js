@@ -1,10 +1,37 @@
+
+
 const express = require('express');
 const { PrismaClient } = require('@prisma/client');
 const { z } = require('zod');
 const { requireAuth } = require('../middleware/auth');
-
 const prisma = new PrismaClient();
 const router = express.Router();
+
+// Claim item (user submits claim info, admin notified)
+router.post('/:id/claim', requireAuth, async (req, res) => {
+  const itemId = req.params.id;
+  const { name, contact } = req.body;
+  if (!name || !contact) {
+    return res.status(400).json({ error: 'Name and contact required' });
+  }
+  try {
+    // Store claim info in DB or send notification (for now, just log)
+    console.log(`Claim submitted for item ${itemId}:`, { name, contact });
+    // Mark item as claimed
+    await prisma.item.update({
+      where: { id: itemId },
+      data: {
+        isClaimed: true
+      }
+    });
+    // TODO: Notify admin via dashboard or notification system
+    res.json({ message: 'Claim submitted. Admin will review your request.' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to submit claim' });
+  }
+});
+
+
 
 const itemSchema = z.object({
   title: z.string().min(1),
@@ -56,10 +83,17 @@ router.post('/', requireAuth, async (req, res) => {
       location,
       dateReported: dateReported ? new Date(dateReported) : new Date(),
       dateOccurred: new Date(dateOccurred),
-      images,
+      images: images.map(img => {
+        // If user uploads, store only filename for local images
+        if (img && (img.endsWith('.jpeg') || img.endsWith('.jpg') || img.endsWith('.png') || img.endsWith('.webp') || img.endsWith('.gif'))) {
+          return img.split('/').pop();
+        }
+        return img;
+      }),
       tags,
       reporterId,   // ✅ Store the reporter's ID
-      ownerId: null // ✅ Owner unknown until verified
+      ownerId: null, // ✅ Owner unknown until verified
+      isClaimed: false // Default to false when reporting
     },
     include: { reporter: true, owner: true }
   });
