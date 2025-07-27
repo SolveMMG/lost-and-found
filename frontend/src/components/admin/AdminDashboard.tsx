@@ -17,8 +17,9 @@ import {
   Users,
   Package
 } from 'lucide-react';
-import { useItems } from '@/hooks/useItems';
+import { useItems, Item } from '@/hooks/useItems';
 import { useAuth } from '@/hooks/useAuth';
+import ItemDetailsModal from '@/components/items/ItemDetailsModal';
 
 const AdminDashboard = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -41,9 +42,15 @@ const AdminDashboard = () => {
     resolved: items.filter(item => item.status === 'resolved').length,
   };
 
+  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const handleStatusUpdate = async (itemId: string, newStatus: 'verified' | 'matched' | 'resolved') => {
-  await updateItemStatus(itemId, newStatus, token);
-};
+    await updateItemStatus(itemId, newStatus, token);
+  };
+  const handleViewDetails = (item: Item) => {
+    setSelectedItem(item);
+    setIsDetailsOpen(true);
+  };
 
   return (
     <div className="space-y-6">
@@ -183,7 +190,7 @@ const AdminDashboard = () => {
                       </div>
                       
                       <div className="flex flex-col gap-2 ml-4">
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline" size="sm" onClick={() => handleViewDetails(item)}>
                           <Eye className="w-4 h-4 mr-2" />
                           View
                         </Button>
@@ -234,6 +241,11 @@ const AdminDashboard = () => {
           </div>
         </CardContent>
       </Card>
+      <ItemDetailsModal
+        isOpen={isDetailsOpen}
+        onClose={() => setIsDetailsOpen(false)}
+        item={selectedItem}
+      />
     </div>
   );
 };

@@ -9,9 +9,11 @@ import { cn } from "@/lib/utils";
 
 interface ItemCardProps {
   item: Item;
+  onViewDetails?: () => void;
+  onContact?: () => void;
 }
 
-const ItemCard = ({ item }: ItemCardProps) => {
+const ItemCard = ({ item, onViewDetails, onContact }: ItemCardProps) => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'verified':
@@ -102,11 +104,11 @@ const ItemCard = ({ item }: ItemCardProps) => {
 
         {/* Actions */}
         <div className="flex gap-2">
-          <Button variant="outline" size="sm" className="flex-1">
+          <Button variant="outline" size="sm" className="flex-1" onClick={onViewDetails}>
             <Eye className="w-4 h-4 mr-2" />
             View Details
           </Button>
-          <Button variant="outline" size="sm" className="flex-1">
+          <Button variant="outline" size="sm" className="flex-1" onClick={onContact}>
             <MessageCircle className="w-4 h-4 mr-2" />
             Contact
           </Button>

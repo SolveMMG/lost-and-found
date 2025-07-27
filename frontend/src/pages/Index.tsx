@@ -12,7 +12,8 @@ import ItemCard from '@/components/items/ItemCard';
 import AdminDashboard from '@/components/admin/AdminDashboard';
 import NotificationCenter from '@/components/notifications/NotificationCenter';
 import { useAuth } from '@/hooks/useAuth';
-import { useItems } from '@/hooks/useItems';
+import { useItems, Item } from '@/hooks/useItems';
+import ItemDetailsModal from '@/components/items/ItemDetailsModal';
 
 const Index = () => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -21,10 +22,12 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [activeTab, setActiveTab] = useState('search');
-  
+  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const { user, isAdmin, logout } = useAuth();
   const { items, loading, searchItems } = useItems();
   const { toast } = useToast();
+
 
   const categories = ['all', 'electronics', 'clothing', 'accessories', 'documents', 'keys', 'bags', 'other'];
 
@@ -40,6 +43,12 @@ const Index = () => {
     setReportType(type);
     setIsReportModalOpen(true);
   };
+
+  // Handler to open details
+const handleViewDetails = (item: Item) => {
+  setSelectedItem(item);
+  setIsDetailsOpen(true);
+};
 
  // Filter items in-memory after fetching
   const filteredItems = items.filter(item => {
@@ -237,7 +246,15 @@ const Index = () => {
                 ))
               ) : filteredItems.length > 0 ? (
                 filteredItems.map(item => (
-                  <ItemCard key={item.id} item={item} />
+                  <ItemCard
+                    key={item.id}
+                    item={item}
+                    onViewDetails={() => handleViewDetails(item)}
+                    onContact={() => {
+                      setSelectedItem(item);
+                      setIsDetailsOpen(true); // Reuse details modal for contact info
+                    }}
+                  />
                 ))
               ) : (
                 <div className="col-span-full text-center py-12">
@@ -317,11 +334,15 @@ const Index = () => {
         isOpen={isAuthModalOpen} 
         onClose={() => setIsAuthModalOpen(false)} 
       />
-      
       <ReportItemModal
         isOpen={isReportModalOpen}
         onClose={() => setIsReportModalOpen(false)}
         type={reportType}
+      />
+      <ItemDetailsModal
+        isOpen={isDetailsOpen}
+        onClose={() => setIsDetailsOpen(false)}
+        item={selectedItem}
       />
     </div>
   );
