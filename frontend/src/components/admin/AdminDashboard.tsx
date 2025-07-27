@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { 
   Shield, 
   Search, 
@@ -15,7 +16,8 @@ import {
   AlertTriangle,
   BarChart3,
   Users,
-  Package
+  Package,
+  Info
 } from 'lucide-react';
 import { useItems, Item } from '@/hooks/useItems';
 import { useAuth } from '@/hooks/useAuth';
@@ -44,12 +46,19 @@ const AdminDashboard = () => {
 
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [selectedClaim, setSelectedClaim] = useState<any | null>(null);
+  const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
   const handleStatusUpdate = async (itemId: string, newStatus: 'verified' | 'matched' | 'resolved') => {
     await updateItemStatus(itemId, newStatus, token);
   };
   const handleViewDetails = (item: Item) => {
     setSelectedItem(item);
     setIsDetailsOpen(true);
+  };
+
+  const handleViewClaim = (claim: any) => {
+    setSelectedClaim(claim);
+    setIsClaimModalOpen(true);
   };
 
   return (
@@ -195,6 +204,13 @@ const AdminDashboard = () => {
                           View
                         </Button>
                         
+                        {/* Claim icon for items with claims */}
+                        {item.claims && item.claims.length > 0 && (
+                          <Button size="sm" variant="outline" onClick={() => handleViewClaim(item.claims[0])}>
+                            <Info className="w-4 h-4 mr-1 text-blue-600" />
+                            View Claim
+                          </Button>
+                        )}
                         {item.status === 'pending' && (
                           <div className="flex gap-2">
                             <Button 
@@ -246,6 +262,23 @@ const AdminDashboard = () => {
         onClose={() => setIsDetailsOpen(false)}
         item={selectedItem}
       />
+      {/* Claim Modal */}
+      {selectedClaim && (
+        <Dialog open={isClaimModalOpen} onOpenChange={setIsClaimModalOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Claim Information</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-2">
+              <div><strong>Name:</strong> {selectedClaim.name}</div>
+              <div><strong>Contact:</strong> {selectedClaim.contact}</div>
+              <div><strong>Description:</strong> {selectedClaim.description || 'No description provided.'}</div>
+              <div><strong>Date:</strong> {new Date(selectedClaim.createdAt).toLocaleString()}</div>
+            </div>
+            <Button onClick={() => setIsClaimModalOpen(false)}>Close</Button>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 };

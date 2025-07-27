@@ -15,7 +15,7 @@ const ClaimItemModal = ({ isOpen, onClose, item }: ClaimItemModalProps) => {
   const [contact, setContact] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
-
+  const [description, setDescription] = useState('');
   // Add local claimed state for instant UI feedback
   const [claimed, setClaimed] = useState(item?.isClaimed || false);
 
@@ -31,7 +31,7 @@ const ClaimItemModal = ({ isOpen, onClose, item }: ClaimItemModalProps) => {
           'Content-Type': 'application/json',
           ...(token && { Authorization: `Bearer ${token}` }),
         },
-        body: JSON.stringify({ name, contact }),
+        body: JSON.stringify({ name, contact, description }),
       });
       if (!res.ok) {
         const data = await res.json();
@@ -39,6 +39,7 @@ const ClaimItemModal = ({ isOpen, onClose, item }: ClaimItemModalProps) => {
       } else {
         setName('');
         setContact('');
+        setDescription('');
         setClaimed(true); // Update UI instantly
         onClose();
       }
@@ -68,6 +69,12 @@ const ClaimItemModal = ({ isOpen, onClose, item }: ClaimItemModalProps) => {
               placeholder="Email or Phone Number"
               value={contact}
               onChange={e => setContact(e.target.value)}
+              required
+            />
+            <Input
+              placeholder="Description (e.g. why you are claiming this item)"
+              value={description}
+              onChange={e => setDescription(e.target.value)}
               required
             />
             {error && <div className="text-red-500 text-sm">{error}</div>}

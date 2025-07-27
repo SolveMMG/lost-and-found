@@ -2,6 +2,15 @@ import { useState, useEffect, useCallback } from 'react';
 import { useToast } from "@/hooks/use-toast";
 import axios from 'axios';
 
+export interface Claim {
+  id: string;
+  name: string;
+  contact: string;
+  description?: string;
+  itemId: string;
+  createdAt: string;
+}
+
 export interface Item {
   id: string;
   title: string;
@@ -18,6 +27,8 @@ export interface Item {
   userName: string;
   contactInfo?: string;
   tags: string[];
+  isClaimed?: boolean;
+  claims?: Claim[];
 }
 
 export const useItems = () => {

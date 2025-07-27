@@ -10,13 +10,20 @@ const router = express.Router();
 // Claim item (user submits claim info, admin notified)
 router.post('/:id/claim', requireAuth, async (req, res) => {
   const itemId = req.params.id;
-  const { name, contact } = req.body;
+  const { name, contact, description } = req.body;
   if (!name || !contact) {
     return res.status(400).json({ error: 'Name and contact required' });
   }
   try {
-    // Store claim info in DB or send notification (for now, just log)
-    console.log(`Claim submitted for item ${itemId}:`, { name, contact });
+    // Store claim info in DB
+    const claim = await prisma.claim.create({
+      data: {
+        name,
+        contact,
+        description,
+        itemId
+      }
+    });
     // Mark item as claimed
     await prisma.item.update({
       where: { id: itemId },
@@ -24,7 +31,8 @@ router.post('/:id/claim', requireAuth, async (req, res) => {
         isClaimed: true
       }
     });
-    // TODO: Notify admin via dashboard or notification system
+    // Notify admin (for now, just log)
+    console.log(`Admin notified: Claim submitted for item ${itemId}`, claim);
     res.json({ message: 'Claim submitted. Admin will review your request.' });
   } catch (error) {
     res.status(500).json({ error: 'Failed to submit claim' });
@@ -48,12 +56,19 @@ const itemSchema = z.object({
 
 // Get all items (include reporter and owner)
 router.get('/', async (req, res) => {
-  const items = await prisma.item.findMany({ include: { reporter: true, owner: true } });
+  const items = await prisma.item.findMany({
+    include: {
+      reporter: true,
+      owner: true,
+      claims: true
+    }
+  });
 
   const mapped = items.map(item => ({
     ...item,
     reporterName: item.reporter?.name || '',
     ownerName: item.owner?.name || '',
+    claims: item.claims || []
   }));
 
   res.json(mapped);

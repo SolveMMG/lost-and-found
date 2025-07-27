@@ -1,3 +1,12 @@
+model Claim {
+  id        String   @id @default(uuid())
+  name      String
+  contact   String
+  description String?
+  itemId    String
+  createdAt DateTime @default(now())
+  item      Item     @relation(fields: [itemId], references: [id])
+}
 generator client {
   provider = "prisma-client-js"
 }
@@ -31,6 +40,7 @@ model Item {
   tags        String[]
   reporterId  String
   ownerId     String?
+  claims      Claim[]
   isClaimed   Boolean  @default(false)
   reporter    User     @relation("ReportedItems", fields: [reporterId], references: [id])
   owner       User?    @relation("OwnedItems", fields: [ownerId], references: [id])
