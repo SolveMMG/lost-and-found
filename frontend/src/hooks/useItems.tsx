@@ -14,6 +14,7 @@ export interface Item {
   dateOccurred: Date;
   images: string[];
   userId: string;
+  reporterId?: string;
   userName: string;
   contactInfo?: string;
   tags: string[];
@@ -70,26 +71,27 @@ export const useItems = () => {
   };
 
   const addItem = async (itemData: any, token: string) => {
-  try {
-    const response = await axios.post(
-      '/api/items',
-      itemData,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
+    try {
+      const response = await axios.post(
+        '/api/items',
+        itemData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      // After successful creation, fetch all items again to update state
+      await fetchItems();
+      return response.data;
+    } catch (error: any) {
+      if (error.response) {
+        throw new Error(error.response.data.error || 'Failed to create item');
       }
-    );
-    return response.data;
-  } catch (error: any) {
-    // Optionally log error details for debugging
-    if (error.response) {
-      throw new Error(error.response.data.error || 'Failed to create item');
+      throw new Error('Failed to create item');
     }
-    throw new Error('Failed to create item');
   }
-}
 
   const checkForMatches = (newItem: Item) => {
     const oppositeType = newItem.type === 'lost' ? 'found' : 'lost';

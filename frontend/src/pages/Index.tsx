@@ -234,7 +234,7 @@ const handleViewDetails = (item: Item) => {
             {/* Items Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {loading ? (
-                Array.from({ length: 6 }).map((_, i) => (
+                Array.from({ length: 100 }).map((_, i) => (
                   <Card key={i} className="animate-pulse">
                     <div className="h-48 bg-gray-200 rounded-t-lg"></div>
                     <CardContent className="p-4">
@@ -300,9 +300,27 @@ const handleViewDetails = (item: Item) => {
                         </div>
                       </Button>
                     </div>
-                    
-                    <div className="text-center text-gray-500">
-                      <p>Your reported items will appear here once you submit a report.</p>
+                    {/* User's reported items */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                      {items.filter(item => item.reporterId === user.id).length > 0 ? (
+                        items.filter(item => item.reporterId === user.id).map(item => (
+                          <ItemCard
+                            key={item.id}
+                            item={item}
+                            onViewDetails={() => handleViewDetails(item)}
+                            onContact={() => {
+                              setSelectedItem(item);
+                              setIsDetailsOpen(true);
+                            }}
+                          />
+                        ))
+                      ) : (
+                        <div className="col-span-full text-center py-8 text-gray-500">
+                          <User className="w-12 h-12 mx-auto mb-4 text-gray-400" />
+                          <h3 className="text-lg font-medium text-gray-900 mb-2">No reported items</h3>
+                          <p className="text-gray-600">Your reported items will appear here once you submit a report.</p>
+                        </div>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
