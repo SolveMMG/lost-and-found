@@ -9,28 +9,28 @@ datasource db {
 
 model User {
   id        String   @id @default(uuid())
+  name      String
   email     String   @unique
-  name      String?
-  password  String   
-  image     String?
+  password  String
   isAdmin   Boolean  @default(false)
-  createdAt DateTime @default(now())
-  items     Item[]
+  itemsReported Item[] @relation("ReportedItems")
+  itemsOwned    Item[] @relation("OwnedItems")
 }
 
 model Item {
-  id           String   @id @default(uuid())
-  title        String
-  description  String?
-  category     String
-  type         String
-  status       String
-  location     String
-  dateReported DateTime @default(now())
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  category    String
+  type        String
+  status      String
+  location    String
+  dateReported DateTime
   dateOccurred DateTime
-  images       String[] // PostgreSQL supports array types
-  tags         String[]
-  ownerId      String
-  owner        User     @relation(fields: [ownerId], references: [id])
-  createdAt    DateTime @default(now())
+  images      String[]
+  tags        String[]
+  reporterId  String
+  ownerId     String?
+  reporter    User     @relation("ReportedItems", fields: [reporterId], references: [id])
+  owner       User?    @relation("OwnedItems", fields: [ownerId], references: [id])
 }

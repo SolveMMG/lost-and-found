@@ -26,14 +26,15 @@ const ReportItemModal = ({ isOpen, onClose, type }: ReportItemModalProps) => {
     title: '',
     description: '',
     category: 'other',
+    type: '',
+    status: '',
     location: '',
     dateOccurred: new Date(),
     contactInfo: '',
     tags: '',
     images: [] as string[]
   });
-  
-  const { user } = useAuth();
+  const { token, user } = useAuth();
   const { addItem } = useItems();
 
   const categories = [
@@ -46,36 +47,39 @@ const ReportItemModal = ({ isOpen, onClose, type }: ReportItemModalProps) => {
     { value: 'other', label: 'Other' }
   ];
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!user) return;
+  // ...existing code...
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setIsLoading(true);
-
+    // Prepare tags and images
+    const tagsArray = formData.tags
+      ? formData.tags.split(',').map(tag => tag.trim()).filter(Boolean)
+      : [];
+    // Prepare item data for backend
     const itemData = {
-      ...formData,
-      type,
-      userId: user.id,
-      userName: user.name,
-      tags: formData.tags.split(',').map(tag => tag.trim()).filter(Boolean)
+      title: formData.title,
+      description: formData.description,
+      category: formData.category,
+      type: type, // 'lost' or 'found'
+      status: 'pending', // Always start as pending
+      location: formData.location,
+      dateReported: new Date().toISOString(),
+      dateOccurred: formData.dateOccurred instanceof Date ? formData.dateOccurred.toISOString() : formData.dateOccurred,
+      images: formData.images,
+      tags: tagsArray,
+      contactInfo: formData.contactInfo,
     };
-
-    await addItem(itemData);
-
-    // Reset form
-    setFormData({
-      title: '',
-      description: '',
-      category: 'other',
-      location: '',
-      dateOccurred: new Date(),
-      contactInfo: '',
-      tags: '',
-      images: []
-    });
-
-    setIsLoading(false);
-    onClose();
+    try {
+      await addItem(itemData, token);
+      setIsLoading(false);
+      onClose();
+      // Optionally show success notification here
+    } catch (error: any) {
+      setIsLoading(false);
+      // Optionally show error notification here
+      console.error(error.message);
+    }
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {

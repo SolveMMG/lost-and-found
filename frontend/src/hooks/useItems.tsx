@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useToast } from "@/hooks/use-toast";
+import axios from 'axios';
 
 export interface Item {
   id: string;
@@ -68,49 +69,27 @@ export const useItems = () => {
     setLoading(false);
   };
 
-  const addItem = async (itemData: Partial<Item>) => {
-    const newItem: Item = {
-      id: Date.now().toString(),
-      title: itemData.title || '',
-      description: itemData.description || '',
-      category: itemData.category || 'other',
-      type: itemData.type || 'lost',
-      status: 'pending',
-      location: itemData.location || '',
-      dateReported: new Date(),
-      dateOccurred: itemData.dateOccurred || new Date(),
-      images: itemData.images || [],
-      userId: itemData.userId || '',
-      userName: itemData.userName || '',
-      contactInfo: itemData.contactInfo,
-      tags: itemData.tags || []
-    };
-
-    const res = await fetch("/api/items", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newItem),
-    });
-
-    if (!res.ok) throw new Error("Failed to create item");
-
-    const data = await res.json();
-    setItems(prev => [data, ...prev]);
-    
-    toast({
-      title: "Item reported successfully",
-      description: `Your ${itemData.type} item "${itemData.title}" has been reported and is pending verification.`,
-    });
-
-    // Simulate matching logic
-    setTimeout(() => {
-      checkForMatches(newItem);
-    }, 2000);
-
-    return newItem;
-  };
+  const addItem = async (itemData: any, token: string) => {
+  try {
+    const response = await axios.post(
+      '/api/items',
+      itemData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    return response.data;
+  } catch (error: any) {
+    // Optionally log error details for debugging
+    if (error.response) {
+      throw new Error(error.response.data.error || 'Failed to create item');
+    }
+    throw new Error('Failed to create item');
+  }
+}
 
   const checkForMatches = (newItem: Item) => {
     const oppositeType = newItem.type === 'lost' ? 'found' : 'lost';
@@ -130,26 +109,27 @@ export const useItems = () => {
     }
   };
 
-  const updateItemStatus = async (itemId: string, status: Item['status']) => {
-    const res = await fetch(`/api/items/${itemId}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ status }),
-    });
+  const updateItemStatus = async (itemId: string, status: Item['status'], token?: string) => {
+  const res = await fetch(`/api/items/${itemId}/status`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: JSON.stringify({ status }),
+  });
 
-    if (!res.ok) throw new Error("Failed to update item status");
+  if (!res.ok) throw new Error("Failed to update item status");
 
-    setItems(prev => prev.map(item => 
-      item.id === itemId ? { ...item, status } : item
-    ));
+  setItems(prev => prev.map(item => 
+    item.id === itemId ? { ...item, status } : item
+  ));
 
-    toast({
-      title: "Item status updated",
-      description: `Item status changed to ${status}`,
-    });
-  };
+  toast({
+    title: "Item status updated",
+    description: `Item status changed to ${status}`,
+  });
+};
 
   return {
     items,

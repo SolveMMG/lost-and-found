@@ -19,16 +19,20 @@ const itemSchema = z.object({
   tags: z.array(z.string()).optional(),
 });
 
-// Get all items
+// Get all items (include reporter and owner)
 router.get('/', async (req, res) => {
-  const items = await prisma.item.findMany({ include: { owner: true } });
-  // Optionally map owner to userName for frontend
+  const items = await prisma.item.findMany({ include: { reporter: true, owner: true } });
+
   const mapped = items.map(item => ({
     ...item,
-    userName: item.owner?.name || '',
+    reporterName: item.reporter?.name || '',
+    ownerName: item.owner?.name || '',
   }));
+
   res.json(mapped);
 });
+
+
 
 // Create item (requires authentication)
 router.post('/', requireAuth, async (req, res) => {
@@ -39,7 +43,8 @@ router.post('/', requireAuth, async (req, res) => {
     title, description, category, type, status, location,
     dateReported, dateOccurred, images = [], tags = []
   } = parse.data;
-  const userId = req.user.id;
+
+  const reporterId = req.user.id; // ✅ Use logged-in user's ID
 
   const item = await prisma.item.create({
     data: {
@@ -47,21 +52,74 @@ router.post('/', requireAuth, async (req, res) => {
       description,
       category,
       type,
-      status,
+      status: 'pending', // Always start as pending
       location,
       dateReported: dateReported ? new Date(dateReported) : new Date(),
       dateOccurred: new Date(dateOccurred),
       images,
       tags,
-      ownerId: userId,
+      reporterId,   // ✅ Store the reporter's ID
+      ownerId: null // ✅ Owner unknown until verified
     },
-    include: { owner: true }
+    include: { reporter: true, owner: true }
   });
 
   res.status(201).json({
     ...item,
-    userName: item.owner?.name || '',
+    reporterName: item.reporter?.name || '',
+    ownerName: item.owner?.name || '',
   });
+});
+
+// Verify claimed item and assign owner (Admin only)
+router.patch('/:id/verify', requireAuth, async (req, res) => {
+  if (!req.user.isAdmin) return res.status(403).json({ error: "Admin access required" });
+
+  const { ownerId } = req.body; // The ID of the verified owner
+
+  try {
+    const updatedItem = await prisma.item.update({
+      where: { id: req.params.id },
+      data: {
+        ownerId,
+        status: 'verified'
+      },
+      include: { reporter: true, owner: true }
+    });
+
+    res.json({
+      message: "Item verified and owner assigned successfully",
+      ...updatedItem,
+      reporterName: updatedItem.reporter?.name || '',
+      ownerName: updatedItem.owner?.name || '',
+    });
+  } catch (error) {
+    res.status(400).json({ error: "Could not update item" });
+  }
+}); // <-- This closes only the /:id/verify route
+
+// Admin: verify item (change status from pending to verified)
+router.patch('/:id/status', requireAuth, async (req, res) => {
+  if (!req.user.isAdmin) return res.status(403).json({ error: "Admin access required" });
+  const { status } = req.body;
+  if (!['pending', 'verified', 'matched', 'resolved'].includes(status)) {
+    return res.status(400).json({ error: "Invalid status" });
+  }
+  try {
+    const updatedItem = await prisma.item.update({
+      where: { id: req.params.id },
+      data: { status },
+      include: { reporter: true, owner: true }
+    });
+    res.json({
+      message: `Item status updated to ${status}`,
+      ...updatedItem,
+      reporterName: updatedItem.reporter?.name || '',
+      ownerName: updatedItem.owner?.name || '',
+    });
+  } catch (error) {
+    res.status(400).json({ error: "Could not update item status" });
+  }
 });
 
 module.exports = router;

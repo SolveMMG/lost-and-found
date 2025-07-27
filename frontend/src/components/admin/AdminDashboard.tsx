@@ -18,11 +18,13 @@ import {
   Package
 } from 'lucide-react';
 import { useItems } from '@/hooks/useItems';
+import { useAuth } from '@/hooks/useAuth';
 
 const AdminDashboard = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const { items, updateItemStatus } = useItems();
+  const { token } = useAuth(); // Assuming you have a useAuth hook to get the token
 
   const filteredItems = items.filter(item => {
     const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -40,8 +42,8 @@ const AdminDashboard = () => {
   };
 
   const handleStatusUpdate = async (itemId: string, newStatus: 'verified' | 'matched' | 'resolved') => {
-    await updateItemStatus(itemId, newStatus);
-  };
+  await updateItemStatus(itemId, newStatus, token);
+};
 
   return (
     <div className="space-y-6">
