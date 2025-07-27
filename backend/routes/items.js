@@ -99,8 +99,8 @@ router.post('/', requireAuth, async (req, res) => {
       dateReported: dateReported ? new Date(dateReported) : new Date(),
       dateOccurred: new Date(dateOccurred),
       images: images.map(img => {
-        // If user uploads, store only filename for local images
-        if (img && (img.endsWith('.jpeg') || img.endsWith('.jpg') || img.endsWith('.png') || img.endsWith('.webp') || img.endsWith('.gif'))) {
+        // If it's a local image, store only the filename
+        if (img && !img.startsWith('http')) {
           return img.split('/').pop();
         }
         return img;

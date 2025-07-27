@@ -62,12 +62,15 @@ const ItemCard = ({ item, onViewDetails, onClaim }: ItemCardProps) => {
           <div className="mb-4">
             <img
               src={
-                item.images[0].startsWith('http')
-                  ? item.images[0]
-                  : `/images/${item.images[0]}`
+                item.images[0]
+                  ? (item.images[0].startsWith('http')
+                      ? item.images[0]
+                      : `/images/${item.images[0]}`)
+                  : '/images/placeholder.svg'
               }
               alt={item.title}
               className="w-full h-40 object-cover rounded-lg bg-gray-100"
+              onError={e => { e.currentTarget.src = '/images/placeholder.svg'; }}
             />
           </div>
         )}
