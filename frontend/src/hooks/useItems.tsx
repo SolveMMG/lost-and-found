@@ -41,7 +41,7 @@ export const useItems = () => {
   const fetchItems = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/items");
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/items`);
       if (!res.ok) throw new Error("Failed to fetch items");
       const data = await res.json();
       setItems(data);
