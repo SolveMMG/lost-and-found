@@ -173,7 +173,8 @@ export const useItems = () => {
     searchItems,
     addItem,
     updateItemStatus,
-    verifyClaimedItem
+    verifyClaimedItem,
+    fetchItems // Expose fetchItems for manual refresh
   };
 };
 

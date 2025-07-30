@@ -18,9 +18,10 @@ interface ReportItemModalProps {
   isOpen: boolean;
   onClose: () => void;
   type: 'lost' | 'found';
+  refreshItems?: () => void;
 }
 
-const ReportItemModal = ({ isOpen, onClose, type }: ReportItemModalProps) => {
+const ReportItemModal = ({ isOpen, onClose, type, refreshItems }: ReportItemModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
@@ -73,6 +74,7 @@ const ReportItemModal = ({ isOpen, onClose, type }: ReportItemModalProps) => {
     try {
       await addItem(itemData, token);
       setIsLoading(false);
+      if (refreshItems) refreshItems();
       onClose();
       // Optionally show success notification here
     } catch (error: any) {

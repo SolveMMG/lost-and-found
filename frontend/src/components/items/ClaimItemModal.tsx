@@ -8,9 +8,10 @@ interface ClaimItemModalProps {
   isOpen: boolean;
   onClose: () => void;
   item: any;
+  refreshItems?: () => void;
 }
 
-const ClaimItemModal = ({ isOpen, onClose, item }: ClaimItemModalProps) => {
+const ClaimItemModal = ({ isOpen, onClose, item, refreshItems }: ClaimItemModalProps) => {
   const [name, setName] = useState('');
   const [contact, setContact] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -41,6 +42,7 @@ const ClaimItemModal = ({ isOpen, onClose, item }: ClaimItemModalProps) => {
         setContact('');
         setDescription('');
         setClaimed(true); // Update UI instantly
+        if (refreshItems) refreshItems();
         onClose();
       }
     } catch (err) {

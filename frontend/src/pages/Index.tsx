@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+// USIU logo is in public/usiu-logo.png
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -26,7 +27,7 @@ const Index = () => {
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const { user, isAdmin, logout } = useAuth();
-  const { items, loading, searchItems } = useItems();
+  const { items, loading, searchItems, fetchItems } = useItems();
   const { toast } = useToast();
   const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
 
@@ -64,39 +65,44 @@ const handleViewDetails = (item: Item) => {
   });
 
   // If user is not signed in, show only app name, slogan, and sign in option
-// if (!user) {
-//   return (
-//     <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-100 via-indigo-100 to-purple-100 px-4">
-//       <div className="flex flex-col items-center bg-white/80 rounded-2xl shadow-xl p-10 md:p-16 mb-8 border border-gray-100">
-//         <div className="flex items-center space-x-3 mb-6">
-//           <div className="w-14 h-14 bg-gradient-to-r from-black to-red-600 rounded-xl flex items-center justify-center shadow-lg">
-//             <Search className="w-7 h-7 text-white" />
-//           </div>
-//           <h1 className="text-5xl font-extrabold bg-gradient-to-r from-black to-red-600 bg-clip-text text-transparent tracking-tight drop-shadow">
-//             Lost & Found
-//           </h1>
-//         </div>
-//         <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-4 text-center max-w-lg">
-//           Find What You've Lost, Help Others Find Theirs
-//         </h2>
-//         <p className="text-lg md:text-2xl text-gray-600 mb-10 max-w-2xl text-center">
-//           Our digital lost property system connects people with their missing belongings through smart matching and community support.
-//         </p>
-//         <Button
-//           size="lg"
-//           className="bg-gradient-to-r from-black to-red-600 text-white text-lg px-8 py-4 rounded-full shadow hover:from-red-700 hover:to-black transition"
-//           onClick={() => setIsAuthModalOpen(true)}
-//         >
-//           Sign In
-//         </Button>
-//       </div>
-//       <AuthModal
-//         isOpen={isAuthModalOpen}
-//         onClose={() => setIsAuthModalOpen(false)}
-//       />
-//     </div>
-//   );
-// }
+if (!user) {
+  return (
+    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-100 via-indigo-100 to-purple-100 px-4">
+      {/* <div className="absolute top-4 left-4">
+        <img src="/usiu-logo.png" alt="USIU Logo" className="w-20 h-20 object-contain " />
+      </div> */}
+      <div className="flex flex-col items-center bg-white/80 rounded-2xl shadow-xl p-10 md:p-16 mb-8 border border-gray-100">
+        <div className="flex flex-col items-center space-y-3 mb-6">
+          <div className="flex items-center space-x-3">
+            <div className="w-14 h-14 bg-gradient-to-r from-black to-red-600 rounded-xl flex items-center justify-center shadow-lg">
+              <Search className="w-7 h-7 text-white" />
+            </div>
+            <h1 className="text-5xl font-extrabold bg-gradient-to-r from-black to-red-600 bg-clip-text text-transparent tracking-tight drop-shadow">
+              USIU Lost & Found
+            </h1>
+          </div>
+        </div>
+        <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-4 text-center max-w-lg">
+          Find What You've Lost, Help Others Find Theirs at USIU
+        </h2>
+        <p className="text-lg md:text-2xl text-gray-600 mb-10 max-w-2xl text-center">
+          Our digital lost property system connects USIU students with their missing belongings through smart matching and campus community support.
+        </p>
+        <Button
+          size="lg"
+          className="bg-gradient-to-r from-black to-red-600 text-white text-lg px-8 py-4 rounded-full shadow hover:from-red-700 hover:to-black transition"
+          onClick={() => setIsAuthModalOpen(true)}
+        >
+          Sign In
+        </Button>
+      </div>
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+      />
+    </div>
+  );
+}
 
   // If user is signed in, render the rest of the app (original content)
   return (
@@ -106,11 +112,13 @@ const handleViewDetails = (item: Item) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-2">
+              {/* <img src="/usiu-logo.png" alt="USIU Logo" className="w-11 h-11 object-contain mr-8" /> */}
               <div className="w-8 h-8 bg-gradient-to-r from-black to-red-600 rounded-lg flex items-center justify-center">
                 <Search className="w-5 h-5 text-white" />
               </div>
+              
               <h1 className="text-2xl font-bold bg-gradient-to-r from-black to-red-600 bg-clip-text text-transparent">
-                Lost & Found
+                USIU Lost & Found
               </h1>
             </div>
             
@@ -149,12 +157,12 @@ const handleViewDetails = (item: Item) => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section */}
-        <div className="text-center mb-12">
+        {/* <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Find What You've Lost, Help Others Find Theirs
+            Find What You've Lost, Help Others Find Theirs at USIU
           </h2>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Our digital lost property system connects people with their missing belongings through smart matching and community support.
+            Our digital lost property system connects USIU students with their missing belongings through smart matching and campus community support.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -176,7 +184,7 @@ const handleViewDetails = (item: Item) => {
               Report Found Item
             </Button>
           </div>
-        </div>
+        </div> */}
 
         {/* Main Content */}
         <Tabs value={activeTab} onValueChange={setActiveTab}>
@@ -203,10 +211,10 @@ const handleViewDetails = (item: Item) => {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Search className="w-5 h-5 mr-2" />
-                  Search Lost & Found Items
+                  Search USIU Lost & Found Items
                 </CardTitle>
                 <CardDescription>
-                  Browse through reported items or search for specific belongings
+                Browse through reported items or search for specific belongings lost or found at USIU
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -276,9 +284,9 @@ const handleViewDetails = (item: Item) => {
               <div className="space-y-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>My Dashboard</CardTitle>
+                    <CardTitle>My USIU Dashboard</CardTitle>
                     <CardDescription>
-                      Manage your reported items and track their status
+                      Manage your reported items and track their status as a USIU student
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -289,7 +297,7 @@ const handleViewDetails = (item: Item) => {
                       >
                         <div className="text-center">
                           <Plus className="w-6 h-6 mx-auto mb-1" />
-                          <div>Report Lost Item</div>
+                          <div>Report Lost Item (USIU)</div>
                         </div>
                       </Button>
                       <Button 
@@ -299,7 +307,7 @@ const handleViewDetails = (item: Item) => {
                       >
                         <div className="text-center">
                           <Plus className="w-6 h-6 mx-auto mb-1" />
-                          <div>Report Found Item</div>
+                          <div>Report Found Item (USIU)</div>
                         </div>
                       </Button>
                     </div>
@@ -321,7 +329,7 @@ const handleViewDetails = (item: Item) => {
                         <div className="col-span-full text-center py-8 text-gray-500">
                           <User className="w-12 h-12 mx-auto mb-4 text-gray-400" />
                           <h3 className="text-lg font-medium text-gray-900 mb-2">No reported items</h3>
-                          <p className="text-gray-600">Your reported items will appear here once you submit a report.</p>
+                          <p className="text-gray-600">Your reported items will appear here once you submit a report. This dashboard is for USIU students only.</p>
                         </div>
                       )}
                     </div>
@@ -333,7 +341,7 @@ const handleViewDetails = (item: Item) => {
                 <CardContent className="text-center py-12">
                   <User className="w-16 h-16 mx-auto mb-4 text-gray-400" />
                   <h3 className="text-lg font-medium text-gray-900 mb-2">Sign in required</h3>
-                  <p className="text-gray-600 mb-4">Please sign in to access your dashboard.</p>
+                  <p className="text-gray-600 mb-4">Please sign in with your USIU account to access your dashboard.</p>
                   <Button onClick={() => setIsAuthModalOpen(true)}>
                     Sign In
                   </Button>
@@ -359,6 +367,7 @@ const handleViewDetails = (item: Item) => {
         isOpen={isReportModalOpen}
         onClose={() => setIsReportModalOpen(false)}
         type={reportType}
+        refreshItems={fetchItems}
       />
       <ItemDetailsModal
         isOpen={isDetailsOpen}
@@ -369,6 +378,7 @@ const handleViewDetails = (item: Item) => {
         isOpen={isClaimModalOpen}
         onClose={() => setIsClaimModalOpen(false)}
         item={selectedItem}
+        refreshItems={fetchItems}
       />
     </div>
   );

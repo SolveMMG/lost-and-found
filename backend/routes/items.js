@@ -64,10 +64,12 @@ router.get('/', async (req, res) => {
     }
   });
 
+
   const mapped = items.map(item => ({
     ...item,
     reporterName: item.reporter?.name || '',
     ownerName: item.owner?.name || '',
+    contactInfo: item.reporter?.email || '',
     claims: item.claims || []
   }));
 
