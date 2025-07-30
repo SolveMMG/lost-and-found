@@ -1,8 +1,8 @@
-
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useAuth } from '@/hooks/useAuth';
 
 interface ClaimItemModalProps {
   isOpen: boolean;
@@ -12,20 +12,23 @@ interface ClaimItemModalProps {
 }
 
 const ClaimItemModal = ({ isOpen, onClose, item, refreshItems }: ClaimItemModalProps) => {
+  const { token } = useAuth();
   const [name, setName] = useState('');
   const [contact, setContact] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [description, setDescription] = useState('');
-  // Add local claimed state for instant UI feedback
   const [claimed, setClaimed] = useState(item?.isClaimed || false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!token) {
+      setError('Please sign in to claim this item.');
+      return;
+    }
     setIsSubmitting(true);
     setError('');
     try {
-      const token = localStorage.getItem('token');
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/items/${item?.id}/claim`, {
         method: 'POST',
         headers: {
@@ -41,7 +44,7 @@ const ClaimItemModal = ({ isOpen, onClose, item, refreshItems }: ClaimItemModalP
         setName('');
         setContact('');
         setDescription('');
-        setClaimed(true); // Update UI instantly
+        setClaimed(true);
         if (refreshItems) refreshItems();
         onClose();
       }
@@ -91,3 +94,4 @@ const ClaimItemModal = ({ isOpen, onClose, item, refreshItems }: ClaimItemModalP
 };
 
 export default ClaimItemModal;
+
