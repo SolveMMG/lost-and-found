@@ -2,6 +2,9 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -10,7 +13,7 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
     proxy: {
       '/api': {
-        target: 'https://lost-and-found-i3o7.onrender.com',
+        target: process.env.VITE_API_URL,
         changeOrigin: true,
       },
     },
@@ -26,3 +29,4 @@ export default defineConfig(({ mode }) => ({
     },
   },
 }));
+
