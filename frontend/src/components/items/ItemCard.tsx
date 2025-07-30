@@ -65,7 +65,7 @@ const ItemCard = ({ item, onViewDetails, onClaim }: ItemCardProps) => {
                 item.images[0]
                   ? (item.images[0].startsWith('http')
                       ? item.images[0]
-                      : `http://localhost:3001/images/${item.images[0]}`)
+                      : `https://lost-and-found-i3o7.onrender.com/images/${item.images[0]}`)
                   : '/images/placeholder.svg'
               }
               alt={item.title}

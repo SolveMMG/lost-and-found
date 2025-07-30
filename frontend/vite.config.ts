@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
     proxy: {
       '/api': {
-        target: 'http://localhost:3001',
+        target: 'https://lost-and-found-i3o7.onrender.com',
         changeOrigin: true,
       },
     },
