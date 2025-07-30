@@ -12,14 +12,7 @@
     "zod": "^4.0.5"
   },
   "devDependencies": {
-    "prisma": "^6.11.1",
-    "nodemon": "^3.0.2"
-  },
-  "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "migrate": "npx prisma migrate deploy",
-    "seed": "npx prisma db seed"
+    "prisma": "^6.11.1"
   }
+  
 }
-
