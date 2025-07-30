@@ -52,6 +52,7 @@ const itemSchema = z.object({
   dateOccurred: z.string().min(1),     // ISO string
   images: z.array(z.string()).optional(),
   tags: z.array(z.string()).optional(),
+  contactInfo: z.string().optional(),
 });
 
 // Get all items (include reporter and owner)
@@ -69,7 +70,7 @@ router.get('/', async (req, res) => {
     ...item,
     reporterName: item.reporter?.name || '',
     ownerName: item.owner?.name || '',
-    contactInfo: item.reporter?.email || '',
+    contactInfo: item.contactInfo || item.reporter?.email || '',
     claims: item.claims || []
   }));
 
@@ -83,9 +84,10 @@ router.post('/', requireAuth, async (req, res) => {
   const parse = itemSchema.safeParse(req.body);
   if (!parse.success) return res.status(400).json({ error: parse.error.errors });
 
+
   const {
     title, description, category, type, status, location,
-    dateReported, dateOccurred, images = [], tags = []
+    dateReported, dateOccurred, images = [], tags = [], contactInfo
   } = parse.data;
 
   const reporterId = req.user.id; // ✅ Use logged-in user's ID
@@ -108,6 +110,7 @@ router.post('/', requireAuth, async (req, res) => {
         return img;
       }),
       tags,
+      contactInfo: contactInfo || null,
       reporterId,   // ✅ Store the reporter's ID
       ownerId: null, // ✅ Owner unknown until verified
       isClaimed: false // Default to false when reporting

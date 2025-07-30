@@ -38,6 +38,7 @@ model Item {
   dateOccurred DateTime
   images      String[]
   tags        String[]
+  contactInfo String?
   reporterId  String
   ownerId     String?
   claims      Claim[]

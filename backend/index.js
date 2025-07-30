@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const itemsRoutes = require('./routes/items');
+const uploadRoutes = require('./routes/upload');
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use('/images', express.static(path.join(__dirname, 'prisma/images')));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/items', itemsRoutes);
+app.use('/api/upload', uploadRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

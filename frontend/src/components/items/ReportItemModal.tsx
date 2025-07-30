@@ -84,11 +84,24 @@ const ReportItemModal = ({ isOpen, onClose, type, refreshItems }: ReportItemModa
     }
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Upload images to backend and store filenames
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    if (files) {
-      const imageUrls = Array.from(files).map(file => URL.createObjectURL(file));
-      setFormData(prev => ({ ...prev, images: [...prev.images, ...imageUrls] }));
+    if (files && files.length > 0) {
+      const formDataUpload = new FormData();
+      Array.from(files).forEach(file => formDataUpload.append('images', file));
+      try {
+        const res = await fetch('/api/upload/images', {
+          method: 'POST',
+          body: formDataUpload
+        });
+        if (!res.ok) throw new Error('Image upload failed');
+        const data = await res.json();
+        // data.filenames is an array of uploaded filenames
+        setFormData(prev => ({ ...prev, images: [...prev.images, ...data.filenames] }));
+      } catch (err) {
+        alert('Image upload failed. Please try again.');
+      }
     }
   };
 

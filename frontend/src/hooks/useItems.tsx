@@ -26,6 +26,8 @@ export interface Item {
   reporterId?: string;
   userName: string;
   contactInfo?: string;
+  reporterName?: string;
+  ownerName?: string;
   tags: string[];
   isClaimed?: boolean;
   claims?: Claim[];

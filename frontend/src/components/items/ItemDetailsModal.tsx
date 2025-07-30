@@ -11,6 +11,7 @@ interface ItemDetailsModalProps {
 
 const ItemDetailsModal = ({ isOpen, onClose, item }: ItemDetailsModalProps) => {
   if (!item) return null;
+  console.log("item", item);
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
@@ -21,7 +22,7 @@ const ItemDetailsModal = ({ isOpen, onClose, item }: ItemDetailsModalProps) => {
           <p>{item.description}</p>
           <p><strong>Location:</strong> {item.location}</p>
           <p><strong>Date:</strong> {new Date(item.dateOccurred).toLocaleDateString()}</p>
-          <p><strong>Reported by:</strong> {item.userName}</p>
+          <p><strong>Reported by:</strong> {item.reporterName}</p>
           <p><strong>Contact:</strong> {item.contactInfo || "N/A"}</p>
           <div className="flex gap-2 mt-2">
             {item.tags.map((tag, i) => (
