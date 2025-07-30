@@ -86,7 +86,7 @@ export const useItems = () => {
   const addItem = async (itemData: any, token: string) => {
     try {
       const response = await axios.post(
-        '/api/items',
+        `${import.meta.env.VITE_API_URL}/api/items`,
         itemData,
         {
           headers: {
@@ -126,7 +126,7 @@ export const useItems = () => {
 
 
   const updateItemStatus = async (itemId: string, status: Item['status'], token?: string) => {
-    const res = await fetch(`/api/items/${itemId}/status`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/items/${itemId}/status`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -148,7 +148,7 @@ export const useItems = () => {
   };
 
   const verifyClaimedItem = async (itemId: string, ownerId: string, token?: string) => {
-    const res = await fetch(`/api/items/${itemId}/verify`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/items/${itemId}/verify`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

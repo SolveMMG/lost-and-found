@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (name: string, email: string, password: string) => {
     try {
-      const res = await fetch("/api/auth/register", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email: string, password: string) => {
     try {
-      const res = await fetch("/api/auth/login", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

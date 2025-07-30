@@ -26,7 +26,7 @@ const ClaimItemModal = ({ isOpen, onClose, item, refreshItems }: ClaimItemModalP
     setError('');
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`/api/items/${item?.id}/claim`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/items/${item?.id}/claim`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -23,6 +23,7 @@ import { useItems, Item } from '@/hooks/useItems';
 import { useAuth } from '@/hooks/useAuth';
 import ItemDetailsModal from '@/components/items/ItemDetailsModal';
 
+
 const AdminDashboard = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');

@@ -91,7 +91,7 @@ const ReportItemModal = ({ isOpen, onClose, type, refreshItems }: ReportItemModa
       const formDataUpload = new FormData();
       Array.from(files).forEach(file => formDataUpload.append('images', file));
       try {
-        const res = await fetch('/api/upload/images', {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/upload/images`, {
           method: 'POST',
           body: formDataUpload
         });
