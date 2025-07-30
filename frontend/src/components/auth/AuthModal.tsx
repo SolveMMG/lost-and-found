@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -6,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2, User, Mail, Lock, Shield } from 'lucide-react';
+import { Loader2, User, Mail, Lock, Shield, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 
 interface AuthModalProps {
@@ -16,8 +15,8 @@ interface AuthModalProps {
 
 const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [loginForm, setLoginForm] = useState({ email: '', password: '' });
-  const [registerForm, setRegisterForm] = useState({ name: '', email: '', password: '', confirmPassword: '' });
+  const [loginForm, setLoginForm] = useState({ email: '', password: '', showPassword: false });
+  const [registerForm, setRegisterForm] = useState({ name: '', email: '', password: '', confirmPassword: '', showPassword: false });
   const { login, register } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -27,7 +26,7 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
     const success = await login(loginForm.email, loginForm.password);
     if (success) {
       onClose();
-      setLoginForm({ email: '', password: '' });
+      setLoginForm({ email: '', password: '', showPassword: false });
     }
     
     setIsLoading(false);
@@ -45,7 +44,7 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
     const success = await register(registerForm.name, registerForm.email, registerForm.password);
     if (success) {
       onClose();
-      setRegisterForm({ name: '', email: '', password: '', confirmPassword: '' });
+      setRegisterForm({ name: '', email: '', password: '', confirmPassword: '', showPassword: false });
     }
     
     setIsLoading(false);
@@ -98,13 +97,27 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
                       <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                       <Input
                         id="login-password"
-                        type="password"
+                        type={loginForm.showPassword ? 'text' : 'password'}
                         placeholder="Enter your password"
                         className="pl-10"
                         value={loginForm.password}
                         onChange={(e) => setLoginForm(prev => ({ ...prev, password: e.target.value }))}
                         required
                       />
+                     <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          className="absolute right-3 top-2.5 h-6 w-6 p-0"
+                          onClick={() => setLoginForm(prev => ({ ...prev, showPassword: !prev.showPassword }))}
+                        >
+                          {loginForm.showPassword ? (
+                            <EyeOff className="h-4 w-4 text-gray-400" />
+                          ) : (
+                            <Eye className="h-4 w-4 text-gray-400" />
+                          )}
+                        </Button>
+
                     </div>
                   </div>
                   <Button type="submit" className="w-full" disabled={isLoading}>
@@ -176,13 +189,27 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
                       <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                       <Input
                         id="register-password"
-                        type="password"
+                        type={registerForm.showPassword ? 'text' : 'password'}
                         placeholder="Enter your password"
                         className="pl-10"
                         value={registerForm.password}
                         onChange={(e) => setRegisterForm(prev => ({ ...prev, password: e.target.value }))}
                         required
                       />
+                      <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="absolute right-3 top-2.5 h-6 w-6 p-0"
+                      onClick={() => setRegisterForm(prev => ({ ...prev, showPassword: !prev.showPassword }))}
+                    >
+                      {registerForm.showPassword ? (
+                        <EyeOff className="h-4 w-4 text-gray-400" />
+                      ) : (
+                        <Eye className="h-4 w-4 text-gray-400" />
+                      )}
+                    </Button>
+
                     </div>
                   </div>
                   <div className="space-y-2">
@@ -191,13 +218,27 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
                       <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                       <Input
                         id="register-confirm-password"
-                        type="password"
+                        type={registerForm.showPassword ? 'text' : 'password'}
                         placeholder="Confirm your password"
                         className="pl-10"
                         value={registerForm.confirmPassword}
                         onChange={(e) => setRegisterForm(prev => ({ ...prev, confirmPassword: e.target.value }))}
                         required
                       />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="absolute right-3 top-2.5 h-6 w-6 p-0"
+                        onClick={() => setRegisterForm(prev => ({ ...prev, showPassword: !prev.showPassword }))}
+                      >
+                        {registerForm.showPassword ? (
+                          <EyeOff className="h-4 w-4 text-gray-400" />
+                        ) : (
+                          <Eye className="h-4 w-4 text-gray-400" />
+                        )}
+                      </Button>
+
                     </div>
                   </div>
                   <Button type="submit" className="w-full" disabled={isLoading}>
