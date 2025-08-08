@@ -83,7 +83,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   const isAdmin = user?.isAdmin === true;
-  console.log("AuthProvider initialized", { user, token, isAdmin });
 
   return (
     <AuthContext.Provider value={{ user, token, isAdmin, register, login, logout }}>

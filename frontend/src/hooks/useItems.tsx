@@ -176,7 +176,7 @@ export const useItems = () => {
     addItem,
     updateItemStatus,
     verifyClaimedItem,
-    fetchItems // Expose fetchItems for manual refresh
+    fetchItems 
   };
 };
 

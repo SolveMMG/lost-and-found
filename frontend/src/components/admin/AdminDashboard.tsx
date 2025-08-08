@@ -28,7 +28,7 @@ const AdminDashboard = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const { items, updateItemStatus } = useItems();
-  const { token } = useAuth(); // Assuming you have a useAuth hook to get the token
+  const { token } = useAuth(); 
 
   const filteredItems = items.filter(item => {
     const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -205,7 +205,7 @@ const AdminDashboard = () => {
                           View
                         </Button>
                         
-                        {/* Claim icon for items with claims */}
+                        
                         {item.claims && item.claims.length > 0 && (
                           <Button size="sm" variant="outline" onClick={() => handleViewClaim(item.claims[0])}>
                             <Info className="w-4 h-4 mr-1 text-blue-600" />

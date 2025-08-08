@@ -31,8 +31,7 @@ router.post('/:id/claim', requireAuth, async (req, res) => {
         isClaimed: true
       }
     });
-    // Notify admin (for now, just log)
-    console.log(`Admin notified: Claim submitted for item ${itemId}`, claim);
+    // Notify admin 
     res.json({ message: 'Claim submitted. Admin will review your request.' });
   } catch (error) {
     res.status(500).json({ error: 'Failed to submit claim' });
@@ -48,8 +47,8 @@ const itemSchema = z.object({
   type: z.string().min(1),
   status: z.string().min(1),
   location: z.string().min(1),
-  dateReported: z.string().optional(), // ISO string
-  dateOccurred: z.string().min(1),     // ISO string
+  dateReported: z.string().optional(), 
+  dateOccurred: z.string().min(1),     
   images: z.array(z.string()).optional(),
   tags: z.array(z.string()).optional(),
   contactInfo: z.string().optional(),
@@ -90,7 +89,7 @@ router.post('/', requireAuth, async (req, res) => {
     dateReported, dateOccurred, images = [], tags = [], contactInfo
   } = parse.data;
 
-  const reporterId = req.user.id; // ✅ Use logged-in user's ID
+  const reporterId = req.user.id; 
 
   const item = await prisma.item.create({
     data: {
@@ -98,7 +97,7 @@ router.post('/', requireAuth, async (req, res) => {
       description,
       category,
       type,
-      status: 'pending', // Always start as pending
+      status: 'pending', 
       location,
       dateReported: dateReported ? new Date(dateReported) : new Date(),
       dateOccurred: new Date(dateOccurred),
@@ -111,9 +110,9 @@ router.post('/', requireAuth, async (req, res) => {
       }),
       tags,
       contactInfo: contactInfo || null,
-      reporterId,   // ✅ Store the reporter's ID
-      ownerId: null, // ✅ Owner unknown until verified
-      isClaimed: false // Default to false when reporting
+      reporterId,   
+      ownerId: null, 
+      isClaimed: false 
     },
     include: { reporter: true, owner: true }
   });
@@ -129,7 +128,7 @@ router.post('/', requireAuth, async (req, res) => {
 router.patch('/:id/verify', requireAuth, async (req, res) => {
   if (!req.user.isAdmin) return res.status(403).json({ error: "Admin access required" });
 
-  const { ownerId } = req.body; // The ID of the verified owner
+  const { ownerId } = req.body; 
 
   try {
     const updatedItem = await prisma.item.update({
@@ -150,7 +149,7 @@ router.patch('/:id/verify', requireAuth, async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: "Could not update item" });
   }
-}); // <-- This closes only the /:id/verify route
+}); 
 
 // Admin: verify item (change status from pending to verified)
 router.patch('/:id/status', requireAuth, async (req, res) => {

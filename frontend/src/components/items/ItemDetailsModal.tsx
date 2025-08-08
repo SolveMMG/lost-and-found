@@ -11,7 +11,6 @@ interface ItemDetailsModalProps {
 
 const ItemDetailsModal = ({ isOpen, onClose, item }: ItemDetailsModalProps) => {
   if (!item) return null;
-  console.log("item", item);
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>

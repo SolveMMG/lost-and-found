@@ -48,12 +48,6 @@ A modern full-stack web application built for United States International Univer
 
 ---
 
-## Screenshots
-
-> *Insert UI screenshots here: homepage, item detail, report form, admin dashboard, etc.*
-
----
-
 ## Getting Started
 
 ### Prerequisites
@@ -88,10 +82,10 @@ node prisma/seed.js
 Start the backend:
 
 ```bash
-npm run dev
+node index.js
 ```
 
-Default backend runs at: `http://localhost:10000`
+Default backend runs at: `http://localhost:3001`
 
 ### Frontend Setup
 
@@ -103,7 +97,7 @@ npm install
 Create a `.env` file in the `frontend/` root:
 
 ```bash
-VITE_API_URL=http://localhost:10000
+VITE_API_URL=http://localhost:8000
 ```
 
 Start the frontend dev server:

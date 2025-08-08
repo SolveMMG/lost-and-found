@@ -39,7 +39,7 @@ router.post('/register', async (req, res) => {
       id: user.id, 
       email: user.email, 
       name: user.name, 
-      isAdmin: user.isAdmin // Include isAdmin in response
+      isAdmin: user.isAdmin 
     } 
   });
 });
@@ -63,7 +63,7 @@ router.post('/login', async (req, res) => {
       id: user.id, 
       email: user.email, 
       name: user.name, 
-      isAdmin: user.isAdmin // Include isAdmin in response
+      isAdmin: user.isAdmin
     } 
   });
 });

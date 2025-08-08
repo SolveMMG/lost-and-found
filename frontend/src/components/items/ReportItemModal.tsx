@@ -62,8 +62,8 @@ const ReportItemModal = ({ isOpen, onClose, type, refreshItems }: ReportItemModa
       title: formData.title,
       description: formData.description,
       category: formData.category,
-      type: type, // 'lost' or 'found'
-      status: 'pending', // Always start as pending
+      type: type, 
+      status: 'pending', 
       location: formData.location,
       dateReported: new Date().toISOString(),
       dateOccurred: formData.dateOccurred instanceof Date ? formData.dateOccurred.toISOString() : formData.dateOccurred,
@@ -76,10 +76,10 @@ const ReportItemModal = ({ isOpen, onClose, type, refreshItems }: ReportItemModa
       setIsLoading(false);
       if (refreshItems) refreshItems();
       onClose();
-      // Optionally show success notification here
+   
     } catch (error: any) {
       setIsLoading(false);
-      // Optionally show error notification here
+      
       console.error(error.message);
     }
   };

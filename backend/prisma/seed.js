@@ -1,4 +1,4 @@
-const images = require('./images'); // Adjust path as needed
+const images = require('./images');
 const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcryptjs');
 const prisma = new PrismaClient();
@@ -64,7 +64,7 @@ async function main() {
     },
   });
 
-  // Delete all items before reseeding (optional but useful during dev)
+  // Delete all items before reseeding 
   await prisma.item.deleteMany();
 
   // Create Items
@@ -75,7 +75,7 @@ async function main() {
         description: 'Black iPhone 14 Pro with cracked screen protector. Has a blue phone case with initials "J.D."',
         category: 'electronics',
         type: 'lost',
-        status: 'verified', // ✅ Verified & Matched
+        status: 'verified', // Verified & Matched
         location: 'Central Park, near Bethesda Fountain',
         dateReported: new Date('2024-01-15'),
         dateOccurred: new Date('2024-01-14'),
@@ -84,7 +84,7 @@ async function main() {
         ],
         tags: ['iphone', 'smartphone', 'black', 'cracked'],
         reporterId: user1.id,
-        ownerId: user1.id, // ✅ Same user who reported it confirmed ownership
+        ownerId: user1.id, // Same user who reported it confirmed ownership
         isClaimed: false
       },
       {
@@ -92,7 +92,7 @@ async function main() {
         description: 'Brown leather wallet with multiple credit cards and cash. Has a small tear on the corner.',
         category: 'accessories',
         type: 'found',
-        status: 'verified', // ✅ Verified & Returned
+        status: 'verified', // Verified & Returned
         location: 'Times Square, near TKTS stairs',
         dateReported: new Date('2024-01-16'),
         dateOccurred: new Date('2024-01-16'),
@@ -101,7 +101,7 @@ async function main() {
         ],
         tags: ['wallet', 'brown', 'leather', 'cards'],
         reporterId: user3.id,
-        ownerId: user4.id, // ✅ Paul Smith claimed & admin verified
+        ownerId: user4.id, // Paul Smith claimed & admin verified
         isClaimed: false
       },
       {
@@ -109,7 +109,7 @@ async function main() {
         description: 'Medium-sized blue denim jacket from Levis. Has a small pin on the left lapel.',
         category: 'clothing',
         type: 'lost',
-        status: 'pending', // ❌ Not verified yet
+        status: 'pending', // Not verified yet
         location: 'Brooklyn Bridge',
         dateReported: new Date('2024-01-17'),
         dateOccurred: new Date('2024-01-16'),
@@ -118,7 +118,7 @@ async function main() {
         ],
         tags: ['jacket', 'denim', 'blue', 'levis'],
         reporterId: user4.id,
-        ownerId: null, // ✅ Pending verification, so no owner yet
+        ownerId: null, // Pending verification, so no owner yet
         isClaimed: false
       },
       {
@@ -126,7 +126,7 @@ async function main() {
         description: 'Set of house keys with a red heart-shaped keychain. About 4-5 keys on a silver ring.',
         category: 'keys',
         type: 'found',
-        status: 'pending', // ❌ Not verified yet
+        status: 'pending', // Not verified yet
         location: 'Washington Square Park',
         dateReported: new Date('2024-01-18'),
         dateOccurred: new Date('2024-01-18'),
@@ -135,13 +135,13 @@ async function main() {
         ],
         tags: ['keys', 'keychain', 'red', 'heart'],
         reporterId: user3.id,
-        ownerId: null, // ✅ Not matched yet
+        ownerId: null, // Not matched yet
         isClaimed: false
       }
     ]
   });
 
-  console.log('✅ Database seeded with updated logic!');
+  console.log('Database seeded with updated logic!');
 }
 
 main()
