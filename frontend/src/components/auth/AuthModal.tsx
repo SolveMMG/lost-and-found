@@ -13,6 +13,7 @@ interface AuthModalProps {
   onClose: () => void;
 }
 
+
 const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [loginForm, setLoginForm] = useState({ email: '', password: '', showPassword: false });
