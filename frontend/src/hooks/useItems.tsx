@@ -83,7 +83,7 @@ export const useItems = () => {
     setLoading(false);
   };
 
-  const addItem = async (itemData: Omit<Item, 'id' | 'dateReported' | 'userName' | 'userId'> & { dateReported: string; dateOccurred: string }, token: string) => {
+  const addItem = async (itemData: Omit<Item, 'id' | 'dateReported' | 'dateOccurred' | 'userName' | 'userId'> & { dateReported: string; dateOccurred: string }, token: string) => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/items`,

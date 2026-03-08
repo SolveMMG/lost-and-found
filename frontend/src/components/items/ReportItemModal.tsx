@@ -85,7 +85,7 @@ const ReportItemModal = ({ isOpen, onClose, type, refreshItems }: ReportItemModa
       description: formData.description,
       category: formData.category,
       type: type, 
-      status: 'pending', 
+      status: 'pending' as const,
       location: formData.location,
       dateReported: new Date().toISOString(),
       dateOccurred: formData.dateOccurred instanceof Date ? formData.dateOccurred.toISOString() : formData.dateOccurred,
