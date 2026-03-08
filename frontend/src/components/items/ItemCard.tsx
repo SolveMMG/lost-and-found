@@ -115,11 +115,11 @@ const ItemCard = ({ item, onViewDetails, onClaim }: ItemCardProps) => {
           {!item.isClaimed ? (
             <Button variant="outline" size="sm" className="flex-1" onClick={onClaim}>
               <MessageCircle className="w-4 h-4 mr-2" />
-              Claim
+              {item.type === 'lost' ? 'Found' : 'Claim'}
             </Button>
           ) : (
             <Badge className="flex-1 justify-center bg-green-100 text-green-800 border-green-300">
-              ✓ Claimed
+              {item.type === 'lost' ? '✓ Found' : '✓ Claimed'}
             </Badge>
           )}
         </div>

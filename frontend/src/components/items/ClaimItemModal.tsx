@@ -72,9 +72,11 @@ const ClaimItemModal = ({ isOpen, onClose, item, refreshItems }: ClaimItemModalP
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Claim: {item?.title}</DialogTitle>
+          <DialogTitle>{item?.type === 'lost' ? 'Found' : 'Claim'}: {item?.title}</DialogTitle>
           <DialogDescription>
-            Fill in your details below. An admin will review your claim and contact you if approved.
+            {item?.type === 'lost'
+              ? 'Fill in your details below. An admin will review and contact the reporter.'
+              : 'Fill in your details below. An admin will review your claim and contact you if approved.'}
           </DialogDescription>
         </DialogHeader>
         {claimed ? (
