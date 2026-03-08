@@ -34,7 +34,7 @@ const ClaimItemModal = ({ isOpen, onClose, item, refreshItems }: ClaimItemModalP
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!token) {
-      setError('Please sign in to claim this item.');
+      setError(`Please sign in to ${item?.type === 'lost' ? 'report finding' : 'claim'} this item.`);
       return;
     }
     setIsSubmitting(true);
@@ -53,8 +53,10 @@ const ClaimItemModal = ({ isOpen, onClose, item, refreshItems }: ClaimItemModalP
         setError(data.error || 'Failed to submit claim');
       } else {
         toast({
-          title: 'Claim submitted',
-          description: 'An admin will review your claim and get in touch.',
+          title: item?.type === 'lost' ? 'Report submitted' : 'Claim submitted',
+          description: item?.type === 'lost'
+            ? 'An admin will review and contact the reporter on your behalf.'
+            : 'An admin will review your claim and get in touch.',
         });
         setName('');
         setContact('');
@@ -80,7 +82,9 @@ const ClaimItemModal = ({ isOpen, onClose, item, refreshItems }: ClaimItemModalP
           </DialogDescription>
         </DialogHeader>
         {claimed ? (
-          <div className="text-green-600 text-center py-4">This item has been claimed.</div>
+          <div className="text-green-600 text-center py-4">
+            {item?.type === 'lost' ? 'Someone has already reported finding this item.' : 'This item has already been claimed.'}
+          </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
@@ -106,10 +110,15 @@ const ClaimItemModal = ({ isOpen, onClose, item, refreshItems }: ClaimItemModalP
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="claim-description">Proof of ownership *</Label>
+              <Label htmlFor="claim-description">
+                {item?.type === 'lost' ? 'Where did you find it? *' : 'Proof of ownership *'}
+              </Label>
               <Textarea
                 id="claim-description"
-                placeholder="Describe something unique about the item that only the owner would know (colour, contents, serial number, etc.)"
+                placeholder={item?.type === 'lost'
+                  ? 'Describe where and when you found the item, and its current condition.'
+                  : 'Describe something unique about the item that only the owner would know (colour, contents, serial number, etc.)'}
+
                 value={description}
                 onChange={e => setDescription(e.target.value)}
                 rows={3}
@@ -130,7 +139,7 @@ const ClaimItemModal = ({ isOpen, onClose, item, refreshItems }: ClaimItemModalP
                     Submitting...
                   </>
                 ) : (
-                  'Submit Claim'
+                  item?.type === 'lost' ? 'Submit Found Report' : 'Submit Claim'
                 )}
               </Button>
             </div>
