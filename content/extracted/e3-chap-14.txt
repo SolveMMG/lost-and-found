@@ -1,0 +1,130 @@
+--- Slide 1 ---
+chapter 14
+communication and collaboration models
+--- Slide 2 ---
+CSCW Issues and Theory
+All computer systems have group impactnot just groupwareIgnoring this leads to the failure of systemsLook at several levels – minutiae to large scale context:face-to-face communicationconversationtext based communicationgroup working
+--- Slide 3 ---
+Face-to-face communication
+Most primitive and most subtle form of communicationOften seen as the paradigm for computer mediated communication?
+--- Slide 4 ---
+Transfer effects
+carry expectations into electronic media …… sometimes with disastrous resultsmay interpret failure as rudeness of colleaguee.g. personal spacevideo may destroy mutual impression of distancehappily the `glass wall' effect helps
+--- Slide 5 ---
+Eye contact
+to convey interest and establish social presencevideo may spoil direct eye contact(see video tunnel, chap 19)but poor quality video better than audio only
+--- Slide 6 ---
+Gestures and body language
+much of our communication is through our bodiesgesture (and eye gaze) used for deictic referencehead and shoulders video loses thisSo …  close focus for eye contact …… or wide focus for body language?
+--- Slide 7 ---
+Back channels
+Alison:	Do you fancy that film … err1 …	`The Green' um2 …	it starts at eight.Brian:	Great!Not just the words!Back channel responses from Brian at 1 and 2quizzical at 1affirmative at 2
+--- Slide 8 ---
+Back channels (ctd)
+Back channels include:nods and grimacesshrugs of the shouldersgrunts and raised eyebrowsUtterance begins vague …… then sharpens up just enough
+--- Slide 9 ---
+Back channels -media effects
+Restricting media restricts back channelsvideo	–	loss of body languageaudio	–	loss of facial expressionhalf duplex	–	lose most voice back-channel		responsestext based	–	nothing left!
+--- Slide 10 ---
+Back channels and turn-taking
+in a meeting …speaker offers the floor		(fraction of a second gap)listener requests the floor		(facial expression, small noise)Grunts, ‘um’s and ‘ah’s, can be used by the:listener to claim the floorspeaker to hold the floor… but often too quiet for half-duplex channelse.g. Trans-continental conferences – special problemlag can exceed the turn taking gap… leads to a monologue!
+--- Slide 11 ---
+Basic conversational structure
+Alison:	Do you fancy that filmBrian:	the uh (500 ms) with the black cat	‘The Green whatsit’Alison:	yeah, go at uh …	(looks at watch – 1.2 s) … 20 to?Brian:	sureSmallest unit is the utteranceTurn taking  utterances usually alternate …
+--- Slide 12 ---
+Adjacency pairs
+Simplest structure – adjacency pairAdjacency pairs may nest:Brian:	Do you want some gateau?Alison:	is it very fattening?Brian:	yes, veryAlison:	and lots of chocolate?Brian:	massesAlison:	I'll have a big slice then.Structure is: B-x, A-y, B-y, A-z, B-z, A-xinner pairs often for clarification… but, try analysing the first transcript in detail!
+--- Slide 13 ---
+Context in conversation
+Utterances are highly ambiguousWe use context to disambiguate:Brian:	(points) that post is leaning a bitAlison:	that's the one you put inTwo types of context:external context – reference to the environmente.g., Brian's ‘that’ – the thing pointed to			internal context – reference to previous conversatione.g., Alison's ‘that’ – the last thing spoken of
+--- Slide 14 ---
+Referring to things – deixis
+Often contextual utterances involve indexicals:that, this, he, she, itthese may be used for internal or external contextAlso descriptive phrases may be used:external: ‘the corner post is leaning a bit’internal: ‘the post you mentioned’In face-to-face conversation can point
+--- Slide 15 ---
+Common Ground
+Resolving context depends on meaning	  participants must share meaningso must have shared knowledgeConversation constantly negotiates meaning… a process called grounding:Alison:	So, you turn right beside the river.Brian:	past the pub.Alison:	yeah …Each utterance is assumed to be:relevant – furthers the current topichelpful – comprehensible to listener
+--- Slide 16 ---
+Focus and topic
+Context resolved relative to current dialogue focusAlison:	Oh, look at your roses : : :Brian:	mmm, but I've had trouble with greenfly.Alison:	they're the symbol of the English summer.Brian:	greenfly?Alison:	no roses silly!Tracing topics is one way to analyse conversation.Alison begins – topic is rosesBrian shifts topic to greenflyAlison misses shift in focus … breakdown
+--- Slide 17 ---
+Breakdown
+Breakdown happens at all levels:			topic, indexicals, gestureBreakdowns are frequent, butredundancy makes detection easy	(Brian cannot interpret ‘they're … summer’)people very good at repair	(Brain and Alison quickly restore shared focus)Electronic media may lose some redundancy		  breakdown more severe
+--- Slide 18 ---
+Speech act theory
+A specific form of conversational analysisUtterances characterised by what they do …		… they are actse.g.  ‘I'm hungry’propositional meaning – hungerintended effect – ‘get me some food’Basic conversational act the illocutionary point:promises, requests, declarations, …Speech acts need not be spokene.g.  silence often interpreted as acceptance …
+--- Slide 19 ---
+Patterns of acts & Coordinator
+Generic patterns of acts can be identifiedConversation for action (CfA) regarded as centralBasis for groupware tool Coordinatorstructured email systemusers must fit within CfA structurenot liked by users!
+--- Slide 20 ---
+Conversations for action (CfA)
+Circles represent ‘states’ in the conversation	Arcs represent utterances (speech acts)
+--- Slide 21 ---
+CfA in action
+Simplest route 1–5:Alison:	have you got the market survey	on chocolate mousse?	requestBrian:	sure  	promiseBrian:	there you are  	assertAlison:	thanks 	declareMore complex routes possible, e.g., 1–2–6–3 …Alison:	have you got …		requestBrian:	I've only got the summary figures	counterAlison:	that'll do		accept
+--- Slide 22 ---
+Text-based communication
+Most common media for asynchronous groupware	exceptions: voice mail, answer-phonesFamiliar medium, similar to paper letters	but, electronic text may act as speech substitute!Types of electronic text:discrete directed messages, no structurelinear messages added (in temporal order)non-linear hypertext linkagesspatial two dimensional arrangementIn addition, linkages may exist to other artefacts
+--- Slide 23 ---
+Problems with text
+No facial expression or body language		  weak back channelsSo, difficult to convey:affective state – happy, sad, …illocutionary force – urgent, important, …Participants compensate:	‘flaming’ and smilies		;-)    :-(            :-)
+--- Slide 24 ---
+example –  ‘Conferencer’
+linear conversation area – LHS    RHS – spatial simulated pinboard
+--- Slide 25 ---
+Pin board has similar granularity	‘cards’ only appear on other participants’ screens when edit/creation is confirmed
+Note separate ‘composition box’– transcript only updated   when contribution ‘sent’– granularity is the contribution
+Conferencer (ctd)
+--- Slide 26 ---
+Grounding constraints
+Establishing common ground depends ongrounding constraints	cotemporality	–	instant feedthrough	simultaneity	–	speaking together	sequence	–	utterances orderedOften weaker in text based communication	e.g., loss of sequence in linear text
+--- Slide 27 ---
+loss of sequence
+Network delays or coarse granularity  overlap1.	Bethan:	how many should be in the group?2.	Rowena:	maybe this could be one of the 4 strongest reasons3.	Rowena:	please clarify what you mean4.	Bethan:	I agree5.	Rowena:	hang on6.	Rowena:	Bethan what did you mean?Message pairs 1&2 and 3&4 composed simultaneously   –  lack of common experience	Rowena:	2 1 3 4 5 6	Bethan:	1 2 4 3 5 6N.B. breakdown of turn-taking due to poor back channels
+--- Slide 28 ---
+Maintaining context
+Recall context was essential for disambiguationText loses external context, hence deixis	(but, linking to shared objects can help)1. Alison:	Brian's got some lovely roses2. Brian:	I'm afraid they're covered in greenfly3. Clarise:	I've seen them, they're beautifulBoth (2) and (3) respond to (1)… but transcript suggests greenfly are beautiful!
+--- Slide 29 ---
+Non-linear conversation
+hypertext-based orthreaded-message systemsmaintain ‘parallel’ conversations
+1.	Alison:		Brian’s got some		lovely roses
+2.	Brian:		I’m afraid they’re		covered in greenfly
+3.	Clarise:		I’ve seen them		they’re beautiful
+4.	Clarise:		have you tried		companion planting?
+--- Slide 30 ---
+Pace and granularity
+Pace of conversation – the rate of turn taking	face-to-face	–	every few seconds	telephone	–	half a minute	email	–	hours or daysface-to-face conversation is highly interactiveinitial utterance is vaguefeedback gives cues for comprehensionlower pace 	   less feedback             	   less interactive
+--- Slide 31 ---
+Coping strategies
+People are very clever!they create coping strategies when things are difficult Coping strategies for slow communicationattempt to increase granularity:eagerness – looking ahead in the conversation gameBrian:  Like a cup of tea? Milk or lemon?multiplexing –  several topics in one utteranceAlison:  No thanks. I love your roses.
+--- Slide 32 ---
+The Conversation Game
+Conversation is like a gameLinear text follows one path through itParticipants choose the path by their utterancesHypertext can follow several paths at once
+--- Slide 33 ---
+Brian:mmm, but I’ve hadtrouble with greenfly
+…  like a game
+Alison’s turn
+Brian’s turn
+Alison:they’re the symbol ofthe English summer
+Alison:they’re the universalsign of love
+Brian:thanks, I’ll trythat next year
+Brian:talking of love. . .
+Alison:have you triedcompanion planting?
+Brian:the red ones aremy favourite
+Alison:Oh, look at yourroses
+Alison’s turn
+Brian’s turn
+--- Slide 34 ---
+Group dynamics
+Work groups constantly change:–  in structure        –  in sizeSeveral groupware systems have explicit rôlesBut rôles depend on context and timee.g., M.D. down mine under authority of foremanand may not reflect dutiese.g., subject of biography, author, but now writerSocial structure may change: democratic, autocratic, …and group may fragment into sub-groupsGroupware systems rarely achieve this flexibilityGroups also change in composition  new members must be able to `catch up'
+--- Slide 35 ---
+Physical environment
+Face-to-face working radically affected by layout of workplacee.g.  meeting rooms:recessed terminals reduce visual impactinward facing to encourage eye contactdifferent power positions
+--- Slide 36 ---
+power positionstraditional meeting room
+whiteboard
+--- Slide 37 ---
+power positionsaugmented meeting room
+sharedscreen
+--- Slide 38 ---
+Distributed cognition
+Traditional cognitive psychology in the headDistributed cognition suggests look to the worldThinking takes place in interactionwith other people with the physical environmentImplications for group work:importance of mediating representationsgroup knowledge greater than sum of partsdesign focus on external representation

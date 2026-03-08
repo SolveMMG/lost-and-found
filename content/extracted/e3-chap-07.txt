@@ -1,0 +1,57 @@
+--- Slide 1 ---
+chapter 7
+design rules
+--- Slide 2 ---
+design rules
+Designing for maximum usability	– the goal of interaction designPrinciples of usabilitygeneral understandingStandards and guidelinesdirection for designDesign patternscapture and reuse design knowledge
+--- Slide 3 ---
+types of design rules
+principlesabstract design ruleslow authorityhigh generalitystandardsspecific design ruleshigh authoritylimited applicationguidelineslower authoritymore general application
+--- Slide 4 ---
+Principles to support usability
+Learnabilitythe ease with which new users can begin effective interaction and achieve maximal performanceFlexibilitythe multiplicity of ways the user and system exchange informationRobustnessthe level of support provided the user in determining successful achievement and assessment of goal-directed behaviour
+--- Slide 5 ---
+Principles of learnability
+Predictabilitydetermining effect of future actions based on past interaction historyoperation visibilitySynthesizabilityassessing the effect of past actionsimmediate vs. eventual honesty
+--- Slide 6 ---
+Principles of learnability (ctd)
+Familiarityhow prior knowledge applies to new systemguessability; affordanceGeneralizabilityextending specific interaction knowledge to new situationsConsistencylikeness in input/output behaviour arising from similar situations or task objectives
+--- Slide 7 ---
+Principles of flexibility
+Dialogue initiativefreedom from system imposed constraints on input dialoguesystem vs. user pre-emptivenessMultithreadingability of system to support user interaction for more than one task at a timeconcurrent vs. interleaving; multimodalityTask migratabilitypassing responsibility for task execution between user and system
+--- Slide 8 ---
+Principles of flexibility (ctd)
+Substitutivityallowing equivalent values of input and output to be substituted for each otherrepresentation multiplicity; equal opportunityCustomizabilitymodifiability of the user interface by user (adaptability) or system (adaptivity)
+--- Slide 9 ---
+Principles of robustness
+Observabilityability of user to evaluate the internal state of the system from its perceivable representationbrowsability; defaults; reachability; persistence; operation visibilityRecoverabilityability of user to take corrective action once an error has been recognizedreachability; forward/backward recovery; commensurate effort
+--- Slide 10 ---
+Principles of robustness (ctd)
+Responsivenesshow the user perceives the rate of communication with the systemStabilityTask conformancedegree to which system services support all of the user's taskstask completeness; task adequacy
+--- Slide 11 ---
+Using design rules
+Design rulessuggest how to increase usabilitydiffer in generality and authority
+--- Slide 12 ---
+Standards
+set by national or international bodies to ensure compliance by a large community of designers standards require sound underlying theory and slowly changing technologyhardware standards more common than software high authority and low level of detailISO 9241 defines usability as effectiveness, efficiency and satisfaction with which users accomplish tasks
+--- Slide 13 ---
+Guidelines
+more suggestive and generalmany textbooks and reports full of guidelinesabstract guidelines (principles) applicable during early life cycle activitiesdetailed guidelines (style guides) applicable during later life cycle activitiesunderstanding justification for guidelines aids in resolving conflicts
+--- Slide 14 ---
+Golden rules and heuristics
+“Broad brush” design rulesUseful check list for good designBetter design using these than using nothing!Different collections e.g.Nielsen’s 10 Heuristics (see Chapter 9)Shneiderman’s 8 Golden RulesNorman’s 7 Principles
+--- Slide 15 ---
+Shneiderman’s 8 Golden Rules
+1. Strive for consistency 2. Enable frequent users to use shortcuts3. Offer informative feedback 4. Design dialogs to yield closure 5. Offer error prevention and simple error handling 6. Permit easy reversal of actions 7. Support internal locus of control 8. Reduce short-term memory load
+--- Slide 16 ---
+Norman’s 7 Principles
+1. Use both knowledge in the world and   knowledge in the head.2. Simplify the structure of tasks.3. Make things visible: bridge the gulfs of  Execution and Evaluation.4. Get the mappings right.5. Exploit the power of constraints, both natural and artificial.6. Design for error.7. When all else fails, standardize.
+--- Slide 17 ---
+HCI design patterns
+An approach to reusing knowledge about successful design solutionsOriginated in architecture: AlexanderA pattern is an invariant solution to a recurrent problem within a specific context.ExamplesLight on Two Sides of Every Room (architecture)Go back to a safe place (HCI)Patterns do not exist in isolation but are linked to other patterns in languages which enable complete designs to be generated
+--- Slide 18 ---
+HCI design patterns (cont.)
+Characteristics of patternscapture design practice not theorycapture the essential common properties of good examples of designrepresent design knowledge at varying levels: social, organisational, conceptual, detailedembody values and can express what is humane in interface designare intuitive and readable and can therefore be used for communication between all stakeholdersa pattern language should be generative and assist in the development of complete designs.
+--- Slide 19 ---
+Summary
+Principles for usabilityrepeatable design for usability relies on maximizing benefit of one good design by abstracting out the general properties which can direct purposeful designThe success of designing for usability requires both creative insight (new paradigms) and purposeful principled practiceUsing design rulesstandards and guidelines to direct design activity
