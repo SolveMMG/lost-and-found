@@ -20,7 +20,7 @@ import {
   Package,
   Info
 } from 'lucide-react';
-import { useItems, Item } from '@/hooks/useItems';
+import { useItems, Item, Claim } from '@/hooks/useItems';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import ItemDetailsModal from '@/components/items/ItemDetailsModal';
@@ -50,7 +50,7 @@ const AdminDashboard = () => {
 
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
-  const [selectedClaim, setSelectedClaim] = useState<any | null>(null);
+  const [selectedClaim, setSelectedClaim] = useState<Claim | null>(null);
   const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
   const handleStatusUpdate = async (itemId: string, newStatus: 'verified' | 'matched' | 'resolved') => {
     await updateItemStatus(itemId, newStatus, token);
@@ -66,7 +66,7 @@ const AdminDashboard = () => {
     setIsDetailsOpen(true);
   };
 
-  const handleViewClaim = (claim: any) => {
+  const handleViewClaim = (claim: Claim) => {
     setSelectedClaim(claim);
     setIsClaimModalOpen(true);
   };

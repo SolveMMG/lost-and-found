@@ -83,7 +83,7 @@ export const useItems = () => {
     setLoading(false);
   };
 
-  const addItem = async (itemData: any, token: string) => {
+  const addItem = async (itemData: Omit<Item, 'id' | 'dateReported' | 'userName' | 'userId'> & { dateReported: string; dateOccurred: string }, token: string) => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/items`,
@@ -98,9 +98,9 @@ export const useItems = () => {
       // After successful creation, fetch all items again to update state
       await fetchItems();
       return response.data;
-    } catch (error: any) {
-      if (error.response) {
-        throw new Error(error.response.data.error || 'Failed to create item');
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(error.response?.data?.error || 'Failed to create item');
       }
       throw new Error('Failed to create item');
     }

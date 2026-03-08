@@ -7,11 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Loader2 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
+import { Item } from '@/hooks/useItems';
 
 interface ClaimItemModalProps {
   isOpen: boolean;
   onClose: () => void;
-  item: any;
+  item: Item | null;
   refreshItems?: () => void;
 }
 
