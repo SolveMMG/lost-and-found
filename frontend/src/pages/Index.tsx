@@ -81,6 +81,16 @@ const handleViewDetails = (item: Item) => {
             </div>
             
             <div className="flex items-center space-x-4">
+              {user && (
+                <Button
+                  size="sm"
+                  className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
+                  onClick={() => handleReportItem('lost')}
+                >
+                  <Plus className="w-4 h-4 mr-1" />
+                  Report Item
+                </Button>
+              )}
               {user && <NotificationCenter />}
               
               {user ? (

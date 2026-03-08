@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -21,14 +22,16 @@ import {
 } from 'lucide-react';
 import { useItems, Item } from '@/hooks/useItems';
 import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/hooks/use-toast';
 import ItemDetailsModal from '@/components/items/ItemDetailsModal';
 
 
 const AdminDashboard = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
+  const [statusFilter, setStatusFilter] = useState('pending');
   const { items, updateItemStatus } = useItems();
-  const { token } = useAuth(); 
+  const { token } = useAuth();
+  const { toast } = useToast();
 
   const filteredItems = items.filter(item => {
     const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -51,6 +54,12 @@ const AdminDashboard = () => {
   const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
   const handleStatusUpdate = async (itemId: string, newStatus: 'verified' | 'matched' | 'resolved') => {
     await updateItemStatus(itemId, newStatus, token);
+    const labels: Record<string, string> = {
+      verified: 'Report approved — now visible to students',
+      matched: 'Item marked as matched',
+      resolved: 'Item marked as resolved',
+    };
+    toast({ title: labels[newStatus] });
   };
   const handleViewDetails = (item: Item) => {
     setSelectedItem(item);
@@ -196,6 +205,11 @@ const AdminDashboard = () => {
                           <span>By: {item.userName}</span>
                           <span>Location: {item.location}</span>
                           <span>Category: {item.category}</span>
+                          {item.claims && item.claims.length > 0 && (
+                            <Badge variant="destructive" className="text-xs">
+                              {item.claims.length} claim{item.claims.length > 1 ? 's' : ''}
+                            </Badge>
+                          )}
                         </div>
                       </div>
                       
@@ -207,10 +221,22 @@ const AdminDashboard = () => {
                         
                         
                         {item.claims && item.claims.length > 0 && (
-                          <Button size="sm" variant="outline" onClick={() => handleViewClaim(item.claims[0])}>
-                            <Info className="w-4 h-4 mr-1 text-blue-600" />
-                            View Claim
-                          </Button>
+                          <div className="flex gap-2">
+                            <Button size="sm" variant="outline" onClick={() => handleViewClaim(item.claims[0])}>
+                              <Info className="w-4 h-4 mr-1 text-blue-600" />
+                              View Claim
+                            </Button>
+                            {item.status !== 'resolved' && (
+                              <Button
+                                size="sm"
+                                className="bg-green-600 hover:bg-green-700"
+                                onClick={() => handleStatusUpdate(item.id, 'resolved')}
+                              >
+                                <CheckCircle className="w-4 h-4 mr-1" />
+                                Approve Claim
+                              </Button>
+                            )}
+                          </div>
                         )}
                         {item.status === 'pending' && (
                           <div className="flex gap-2">
@@ -220,7 +246,7 @@ const AdminDashboard = () => {
                               className="bg-green-600 hover:bg-green-700"
                             >
                               <CheckCircle className="w-4 h-4 mr-1" />
-                              Verify
+                              Approve Report
                             </Button>
                           </div>
                         )}
@@ -236,13 +262,27 @@ const AdminDashboard = () => {
                         )}
                         
                         {item.status === 'matched' && (
-                          <Button 
-                            size="sm"
-                            onClick={() => handleStatusUpdate(item.id, 'resolved')}
-                            className="bg-gray-600 hover:bg-gray-700"
-                          >
-                            Mark Resolved
-                          </Button>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button size="sm" className="bg-gray-600 hover:bg-gray-700">
+                                Mark Resolved
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Mark as Resolved?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  This will close the "{item.title}" report. This action is hard to reverse.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => handleStatusUpdate(item.id, 'resolved')}>
+                                  Confirm
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
                         )}
                       </div>
                     </div>
