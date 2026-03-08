@@ -230,7 +230,7 @@ const AdminDashboard = () => {
                               <Button
                                 size="sm"
                                 className="bg-green-600 hover:bg-green-700"
-                                onClick={() => handleStatusUpdate(item.id, 'resolved')}
+                                onClick={() => handleStatusUpdate(item.id, 'matched')}
                               >
                                 <CheckCircle className="w-4 h-4 mr-1" />
                                 Approve Claim
