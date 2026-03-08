@@ -36,16 +36,21 @@ const ItemCard = ({ item, onViewDetails, onClaim }: ItemCardProps) => {
   return (
     <Card className="group hover:shadow-lg transition-all duration-200 border-l-4 border-l-blue-500">
       {/* Image first — most identifying feature */}
-      {item.images && item.images.length > 0 && (
-        <div className="overflow-hidden rounded-t-lg">
+      <div className="overflow-hidden rounded-t-lg bg-gray-100">
+        {item.images && item.images.length > 0 ? (
           <img
             src={item.images[0].startsWith('http') ? item.images[0] : `${import.meta.env.VITE_API_URL}/images/${item.images[0]}`}
             alt={item.title}
-            className="w-full h-40 object-cover bg-gray-100"
+            className="w-full h-40 object-cover"
             onError={e => { e.currentTarget.src = '/placeholder.svg'; }}
           />
-        </div>
-      )}
+        ) : (
+          <div className="w-full h-40 flex flex-col items-center justify-center text-gray-400">
+            <span className="text-4xl mb-1">📦</span>
+            <span className="text-xs">No image provided</span>
+          </div>
+        )}
+      </div>
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="flex-1">
