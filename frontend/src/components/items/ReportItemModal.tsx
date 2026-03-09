@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +13,7 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useAuth } from '@/hooks/useAuth';
 import { useItems } from '@/hooks/useItems';
+import { useToast } from '@/hooks/use-toast';
 
 interface ReportItemModalProps {
   isOpen: boolean;
@@ -23,6 +24,8 @@ interface ReportItemModalProps {
 
 const ReportItemModal = ({ isOpen, onClose, type, refreshItems }: ReportItemModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [imageError, setImageError] = useState('');
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -37,6 +40,25 @@ const ReportItemModal = ({ isOpen, onClose, type, refreshItems }: ReportItemModa
   });
   const { token, user } = useAuth();
   const { addItem } = useItems();
+
+  // Reset form when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setFormData({
+        title: '',
+        description: '',
+        category: 'other',
+        type: '',
+        status: '',
+        location: '',
+        dateOccurred: new Date(),
+        contactInfo: '',
+        tags: '',
+        images: []
+      });
+      setImageError('');
+    }
+  }, [isOpen]);
 
   const categories = [
     { value: 'electronics', label: 'Electronics' },
@@ -63,7 +85,7 @@ const ReportItemModal = ({ isOpen, onClose, type, refreshItems }: ReportItemModa
       description: formData.description,
       category: formData.category,
       type: type, 
-      status: 'pending', 
+      status: 'pending' as const,
       location: formData.location,
       dateReported: new Date().toISOString(),
       dateOccurred: formData.dateOccurred instanceof Date ? formData.dateOccurred.toISOString() : formData.dateOccurred,
@@ -74,19 +96,22 @@ const ReportItemModal = ({ isOpen, onClose, type, refreshItems }: ReportItemModa
     try {
       await addItem(itemData, token);
       setIsLoading(false);
+      toast({ title: 'Report submitted', description: 'An admin will review it before it appears on the feed.' });
       if (refreshItems) refreshItems();
       onClose();
-   
-    } catch (error: any) {
+    } catch (error: unknown) {
       setIsLoading(false);
-      
-      console.error(error.message);
+      toast({
+        title: 'Submission failed',
+        description: error instanceof Error ? error.message : 'Something went wrong. Please try again.',
+        variant: 'destructive',
+      });
     }
   };
 
   // Upload images to backend and store filenames
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
+    const {files} = e.target;
     if (files && files.length > 0) {
       const formDataUpload = new FormData();
       Array.from(files).forEach(file => formDataUpload.append('images', file));
@@ -100,7 +125,7 @@ const ReportItemModal = ({ isOpen, onClose, type, refreshItems }: ReportItemModa
         // data.filenames is an array of uploaded filenames
         setFormData(prev => ({ ...prev, images: [...prev.images, ...data.filenames] }));
       } catch (err) {
-        alert('Image upload failed. Please try again.');
+        setImageError('Image upload failed. Please try again.');
       }
     }
   };
@@ -125,8 +150,9 @@ const ReportItemModal = ({ isOpen, onClose, type, refreshItems }: ReportItemModa
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Basic Information */}
+          {/* Section 1: What is the item? */}
           <div className="space-y-4">
+            <p className="text-sm font-semibold text-gray-700 uppercase tracking-wide">What is the item?</p>
             <div className="space-y-2">
               <Label htmlFor="title">Item Name *</Label>
               <Input
@@ -168,7 +194,12 @@ const ReportItemModal = ({ isOpen, onClose, type, refreshItems }: ReportItemModa
             </div>
           </div>
 
-          {/* Location and Date */}
+          <hr className="border-gray-200" />
+
+          {/* Section 2: Where and when? */}
+          <div className="space-y-4">
+            <p className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Where and when?</p>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="location">Location *</Label>
@@ -205,6 +236,7 @@ const ReportItemModal = ({ isOpen, onClose, type, refreshItems }: ReportItemModa
                     mode="single"
                     selected={formData.dateOccurred}
                     onSelect={(date) => date && setFormData(prev => ({ ...prev, dateOccurred: date }))}
+                    disabled={(date) => date > new Date()}
                     initialFocus
                   />
                 </PopoverContent>
@@ -253,6 +285,9 @@ const ReportItemModal = ({ isOpen, onClose, type, refreshItems }: ReportItemModa
                   onChange={handleImageUpload}
                   className="mt-2"
                 />
+                {imageError && (
+                  <p className="mt-2 text-sm text-red-600">{imageError}</p>
+                )}
               </div>
             </div>
 

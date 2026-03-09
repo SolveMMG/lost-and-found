@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CalendarIcon, MapPin, User, Eye, MessageCircle } from 'lucide-react';
+import { CalendarIcon, MapPin, User, Eye, MessageCircle, CheckCircle, Clock, Users } from 'lucide-react';
 import { format } from "date-fns";
 import { Item } from '@/hooks/useItems';
 import { cn } from "@/lib/utils";
@@ -35,15 +35,35 @@ const ItemCard = ({ item, onViewDetails, onClaim }: ItemCardProps) => {
 
   return (
     <Card className="group hover:shadow-lg transition-all duration-200 border-l-4 border-l-blue-500">
+      {/* Image first — most identifying feature */}
+      <div className="overflow-hidden rounded-t-lg bg-gray-100">
+        {item.images && item.images.length > 0 ? (
+          <img
+            src={item.images[0].startsWith('http') ? item.images[0] : `${import.meta.env.VITE_API_URL}/images/${item.images[0]}`}
+            alt={item.title}
+            className="w-full h-40 object-cover"
+            onError={e => { e.currentTarget.src = '/placeholder.svg'; }}
+          />
+        ) : (
+          <div className="w-full h-40 flex flex-col items-center justify-center text-gray-400">
+            <span className="text-4xl mb-1">📦</span>
+            <span className="text-xs">No image provided</span>
+          </div>
+        )}
+      </div>
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
-              <Badge className={cn("text-xs font-medium", getTypeColor(item.type))}>
-                {item.type.toUpperCase()}
+              <Badge className={cn("text-xs font-medium gap-1", getTypeColor(item.type))}>
+                {item.type === 'lost' ? '↓' : '↑'} {item.type.charAt(0).toUpperCase() + item.type.slice(1)}
               </Badge>
-              <Badge variant="outline" className={cn("text-xs", getStatusColor(item.status))}>
-                {item.status.toUpperCase()}
+              <Badge variant="outline" className={cn("text-xs gap-1", getStatusColor(item.status))}>
+                {item.status === 'verified' && <CheckCircle className="w-3 h-3" />}
+                {item.status === 'pending' && <Clock className="w-3 h-3" />}
+                {item.status === 'matched' && <Users className="w-3 h-3" />}
+                {item.status === 'resolved' && <CheckCircle className="w-3 h-3" />}
+                {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
               </Badge>
             </div>
             <h3 className="font-semibold text-lg text-gray-900 group-hover:text-blue-600 transition-colors">
@@ -57,24 +77,6 @@ const ItemCard = ({ item, onViewDetails, onClaim }: ItemCardProps) => {
       </CardHeader>
 
       <CardContent className="pt-0">
-        {/* Image */}
-        {item.images && item.images.length > 0 && (
-          <div className="mb-4">
-            <img
-              src={
-                item.images[0]
-                  ? (item.images[0].startsWith('http')
-                      ? item.images[0]
-                      : `${import.meta.env.VITE_API_URL}/images/${item.images[0]}`)
-                  : '/images/placeholder.svg'
-              }
-              alt={item.title}
-              className="w-full h-40 object-cover rounded-lg bg-gray-100"
-              onError={e => { e.currentTarget.src = '/images/placeholder.svg'; }}
-            />
-          </div>
-        )}
-
         {/* Details */}
         <div className="space-y-2 mb-4">
           <div className="flex items-center text-sm text-gray-600">
@@ -115,10 +117,16 @@ const ItemCard = ({ item, onViewDetails, onClaim }: ItemCardProps) => {
             <Eye className="w-4 h-4 mr-2" />
             View Details
           </Button>
-          <Button variant="outline" size="sm" className="flex-1" onClick={onClaim}>
-            <MessageCircle className="w-4 h-4 mr-2" />
-            Claim
-          </Button>
+          {!item.isClaimed ? (
+            <Button variant="outline" size="sm" className="flex-1" onClick={onClaim}>
+              <MessageCircle className="w-4 h-4 mr-2" />
+              {item.type === 'lost' ? 'Found' : 'Claim'}
+            </Button>
+          ) : (
+            <Badge className="flex-1 justify-center bg-green-100 text-green-800 border-green-300">
+              {item.type === 'lost' ? '✓ Found' : '✓ Claimed'}
+            </Badge>
+          )}
         </div>
       </CardContent>
     </Card>

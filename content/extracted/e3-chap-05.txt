@@ -1,0 +1,299 @@
+--- Slide 1 ---
+chapter 5
+interaction design basics
+--- Slide 2 ---
+interaction design basics
+design:what it is, interventions, goals, constraintsthe design processwhat happens whenuserswho they are, what they are like …scenariosrich stories of designnavigationfinding your way around a systemiteration and prototypesnever get it right first time!
+--- Slide 3 ---
+interactions and interventions
+design interactions not just interfacesnot just the immediate interactione.g. stapler in office – technology changes interaction stylemanual:	write, print, staple, write, print, staple, …electric:	write, print, write, print, …, staple designing interventions not just artefactsnot just the system, but also …documentation, manuals, tutorialswhat we say and do as well as what we make
+--- Slide 4 ---
+what is design?
+--- Slide 5 ---
+what is design?
+achieving goals within constraints goals - purposewho is it for, why do they want it constraintsmaterials, platformstrade-offs
+--- Slide 6 ---
+golden rule of design
+understand your materials
+--- Slide 7 ---
+for Human–Computer Interaction
+understand your materialsunderstand computerslimitations, capacities, tools, platformsunderstand peoplepsychological, social aspectshuman errorand their interaction …
+--- Slide 8 ---
+To err is human
+accident reports ..aircrash, industrial accident, hospital mistakeenquiry … blames … ‘human error’but …concrete lintel breaks because too much weightblame ‘lintel error’ ?… no – design error	we know how concrete behaves under stresshuman ‘error’ is normalwe know how users behave under stressso design for it!treat the user at least as well as physical materials!
+--- Slide 9 ---
+Central message …
+the user
+--- Slide 10 ---
+The process of design
+what iswanted
+analysis
+design
+implementand deploy
+prototype
+--- Slide 11 ---
+Steps …
+requirementswhat is there and what is wanted …analysisordering and understandingdesignwhat to do and how to decideiteration and prototypinggetting it right … and finding what is really needed!implementation and deploymentmaking it and getting it out there
+--- Slide 12 ---
+… but how can I do it all ! !
+limited time    design trade-offusability?finding problems and fixing them?deciding what to fix?a perfect system is badly designedtoo good  too much effort in design
+
+
+--- Slide 13 ---
+--- Slide 14 ---
+user focus
+know your userpersonaecultural probes
+--- Slide 15 ---
+know your user
+who are they?probably not like you!talk to themwatch themuse your imagination
+--- Slide 16 ---
+persona
+description of an ‘example’ usernot necessarily a real personuse as surrogate userwhat would Betty thinkdetails mattermakes her ‘real’
+--- Slide 17 ---
+example persona
+Betty is 37 years old,  She has been Warehouse Manager for five years and worked for Simpkins Brothers Engineering for twelve years.  She didn’t go to university, but has studied in her evenings for a business diploma.  She has two children aged 15 and 7 and does not like to work late.  She did part of an introductory in-house computer course some years ago, but it was interrupted when she was promoted and could no longer afford to take the time.  Her vision is perfect, but her right-hand movement is slightly restricted following an industrial accident 3 years ago.  She is enthusiastic about her work and is happy to delegate responsibility and take suggestions from her staff.  However, she does feel threatened by the introduction of yet another new computer system (the third in her time at SBE).
+--- Slide 18 ---
+cultural probes
+direct observationsometimes hardin the homepsychiatric patients, …probe packsitems to prompt responsese.g. glass to listen at wall, camera, postcardgiven to people to open in their own environmentthey record what is meaningful to themused to …inform interviews, prompt ideas, enculture designers
+--- Slide 19 ---
+scenarios
+stories for designuse and reuse
+--- Slide 20 ---
+scenarios
+stories for designcommunicate with othersvalidate other modelsunderstand dynamicslinearitytime is linear - our lives are linearbut don’t show alternatives
+--- Slide 21 ---
+scenarios …
+what will users want to do?step-by-step walkthroughwhat can they see (sketches, screen shots)what do they do (keyboard, mouse etc.)what are they thinking?use and reuse throughout design
+--- Slide 22 ---
+scenario – movie player
+Brian would like to see the new film “Moments of Significance” and wants to invite Alison, but he knows she doesn’t like “arty” films.  He decides to take a look at it to see if she would like it and so connects to one of the movie sharing networks.  He uses his work machine as it has a higher bandwidth connection, but feels a bit guilty.  He knows he will be getting an illegal copy of the film, but decides it is OK as he is intending to go to the cinema to watch it.  After it downloads to his machine he takes out his new personal movie player.  He presses the ‘menu’ button and on the small LCD screen he scrolls using the arrow keys to ‘bluetooth connect’ and presses the select button.  On his computer the movie download program now has an icon showing that it has recognised a compatible device and he drags the icon of the film over the icon for the player.  On the player the LCD screen says “downloading now”, a percent done indicator and small whirling icon. …  …  …
+--- Slide 23 ---
+also play act …
+mock up devicepretend you are doing itinternet-connected swiss army knife …
+--- Slide 24 ---
+… explore the depths
+explore interactionwhat happens whenexplore cognitionwhat are the users thinkingexplore architecturewhat is happening inside
+--- Slide 25 ---
+use scenarios to ..
+communicate with othersdesigners, clients, usersvalidate other models‘play’ it against other modelsexpress dynamicsscreenshots – appearancescenario – behaviour
+--- Slide 26 ---
+linearity
+Scenarios – one linear path through systemPros:life and time are lineareasy to understand (stories and narrative are natural)concrete (errors less likely)Cons:no choice,  no branches,  no special conditionsmiss the unintendedSo:use several scenariosuse several methods
+--- Slide 27 ---
+--- Slide 28 ---
+navigation design
+local structure – single screenglobal structure – whole site
+--- Slide 29 ---
+levels
+widget choicemenus, buttons etc.screen designapplication navigation designenvironment other apps, O/S
+--- Slide 30 ---
+the web …
+widget choicescreen designnavigation designenvironment
+elements and tags<a href=“...”>page designsite structurethe web, browser,external links
+--- Slide 31 ---
+physical devices
+widget choicescreen designnavigation designenvironment
+controlsbuttons, knobs, dialsphysical layoutmodes of devicethe real world
+--- Slide 32 ---
+think about structure
+within a screenlater ...locallooking from this screen outglobalstructure of site, movement between screenswider stillrelationship with other applications
+--- Slide 33 ---
+local
+from one screen looking out
+--- Slide 34 ---
+goal seeking
+goal
+start
+--- Slide 35 ---
+goal seeking
+start
+goal
+progress with local knowledge only ...
+--- Slide 36 ---
+goal seeking
+goal
+start
+…   but can get to the goal
+--- Slide 37 ---
+goal seeking
+…   try to avoid these bits!
+--- Slide 38 ---
+four golden rules
+knowing where you areknowing what you can doknowing where  you are goingor what will happenknowing where you’ve beenor what you’ve done
+--- Slide 39 ---
+where you are – breadcrumbs
+shows path through web site hierarchy
+--- Slide 40 ---
+beware the big button trap
+where do they go?lots of room for extra text!
+--- Slide 41 ---
+modes
+lock to prevent accidental use …remove lock - ‘c’ + ‘yes’ to confirmfrequent practiced actionif lock forgottenin pocket ‘yes’ gets pressedgoes to phone bookin phone book …  ‘c’ – delete entry  ‘yes’ – confirm… oops !
+--- Slide 42 ---
+global
+between screenswithin the application
+--- Slide 43 ---
+hierarchical diagrams
+--- Slide 44 ---
+hierarchical diagrams ctd.
+parts of applicationscreens or groups of screenstypically functional separation
+--- Slide 45 ---
+navigating hierarchies
+deep is difficult!misuse of Miller’s 7 ± 2short term memory, not menu sizeoptimal?many items on each screenbut structured within screen
+see /e3/online/menu-breadth/
+--- Slide 46 ---
+think about dialogue
+what does it mean in UI design?
+Minister:  do you name take this woman …Man:   I doMinister: do you name take this man …Woman:  I doMinister:  I now pronounce you man and wife
+--- Slide 47 ---
+think about dialogue
+what does it mean in UI design?marriage servicegeneral flow,  generic – blanks for namespattern of interaction between peoplecomputer dialoguepattern of interaction between users and systembut details differ each time
+Minister:  do you name take this woman …
+--- Slide 48 ---
+network diagrams
+show different paths through system
+--- Slide 49 ---
+network diagrams ctd.
+what leads to whatwhat happens whenincluding branchesmore task oriented then hierarchy
+--- Slide 50 ---
+wider still
+between applicationsand beyond ...
+--- Slide 51 ---
+wider still …
+style issues:platform standards,  consistencyfunctional issuescut and pastenavigation issuesembedded applicationslinks to other apps  … the web
+--- Slide 52 ---
+--- Slide 53 ---
+screen design and layout
+basic principlesgrouping, structure, orderalignmentuse of white space
+--- Slide 54 ---
+basic principles
+askwhat is the user doing?thinkwhat information, comparisons, orderdesignform follows function
+--- Slide 55 ---
+available tools
+grouping of itemsorder of items decoration - fonts, boxes etc.alignment of itemswhite space between items
+--- Slide 56 ---
+grouping and structure
+logically together    physically together
+--- Slide 57 ---
+order of groups and items
+think! - what is natural ordershould match screen order!use boxes, space etc.set up tabbing right!instructionsbeware the cake recipie syndrome!… mix milk and flour, add the fruit    after beating them
+--- Slide 58 ---
+decoration
+use boxes to group logical itemsuse fonts for emphasis, headingsbut not too many!!
+--- Slide 59 ---
+alignment - text
+you read from left to right   (English and European)                        			  align left hand side
+Willy Wonka and the Chocolate FactoryWinston Churchill - A BiographyWizard of OzXena - Warrior Princess
+Willy Wonka and the Chocolate FactoryWinston Churchill - A BiographyWizard of OzXena - Warrior Princess
+fine for special effects but hard to scan
+boring butreadable!
+--- Slide 60 ---
+alignment - names
+Usually scanning for surnames   			  make it easy!
+Alan DixJanet FinlayGregory AbowdRussell Beale
+Alan        DixJanet        FinlayGregory  AbowdRussell    Beale
+Dix , AlanFinlay, JanetAbowd, GregoryBeale, Russell
+
+
+
+--- Slide 61 ---
+alignment - numbers
+think purpose!which is biggest?
+532.56179.3256.3171573.94810353.142497.6256
+--- Slide 62 ---
+alignment - numbers
+visually: long number = big numberalign decimal pointsor right align integers
+627.865	1.005763	382.583	2502.56	432.935	2.0175	652.87	56.34
+--- Slide 63 ---
+multiple  columns
+scanning across gaps hard:		(often hard to avoid with large data base fields)
+sherbert	75toffee	120chocolate	35fruit gums	27coconut dreams	85
+--- Slide 64 ---
+multiple  columns - 2
+use leaders
+--- Slide 65 ---
+multiple  columns - 3
+or greying    (vertical too)
+sherbert	75toffee	120chocolate	35fruit gums	27coconut dreams	85
+--- Slide 66 ---
+sherbert	75	toffee	120	chocolate	35	fruit gums	27	coconut dreams	85
+multiple  columns - 4
+or even (with care!) ‘bad’ alignment
+--- Slide 67 ---
+white space - the counter
+WHAT YOU SEE
+--- Slide 68 ---
+white space - the counter
+WHAT YOU SEE
+--- Slide 69 ---
+space to separate
+--- Slide 70 ---
+space to structure
+--- Slide 71 ---
+space to highlight
+--- Slide 72 ---
+physical controls
+grouping of itemsdefrost settingstype of foodtime to cook
+--- Slide 73 ---
+physical controls
+grouping of itemsorder of itemstype of heatingtemperaturetime to cookstart
+--- Slide 74 ---
+physical controls
+grouping of itemsorder of items decorationdifferent coloursfor different functionslines around relatedbuttons
+--- Slide 75 ---
+physical controls
+grouping of itemsorder of items decorationalignmentcentered text in buttons? easy to scan ?
+? easy to scan ?
+--- Slide 76 ---
+physical controls
+grouping of itemsorder of items decorationalignmentwhite spacegaps to aid grouping
+--- Slide 77 ---
+--- Slide 78 ---
+user action and control
+entering informationknowing what to doaffordances
+--- Slide 79 ---
+entering information
+forms, dialogue boxespresentation + data inputsimilar layout issuesalignment - N.B. different label lengthslogical layoutuse task analysis (ch15)groupingsnatural order for entering informationtop-bottom, left-right (depending on culture)set tab order for keyboard entry
+N.B. see extra slides for widget choice
+
+?
+--- Slide 80 ---
+knowing what to do
+what is active what is passivewhere do you clickwhere do you typeconsistent style helpse.g. web underlined linkslabels and iconsstandards for common actionslanguage – bold = current state or action
+--- Slide 81 ---
+affordances
+psychological termfor physical objectsshape and size suggest actionspick up, twist, throwalso cultural – buttons ‘afford’ pushing for screen objectsbutton–like object ‘affords’ mouse clickphysical-like objects suggest useculture of computer useicons ‘afford’ clickingor even double clicking … not like real buttons!
+--- Slide 82 ---
+appropriate appearance
+presenting informationaesthetics and utilitycolour and 3Dlocalisation & internationalisation
+--- Slide 83 ---
+presenting information
+purpose matterssort order (which column, numeric alphabetic)text vs. diagramscatter graph vs. histogramuse paper presentation principles!but add interactivitysoftens design choices e.g. re-ordering columns‘dancing histograms’ (chap 21)
+size
+--- Slide 84 ---
+aesthetics and utility
+aesthetically pleasing designsincrease user satisfaction and improve productivitybeauty and utility may conflictmixed up visual styles  easy to distinguishclean design – little differentiation  confusingbackgrounds behind text	… good to look at, but hard to readbut can work togethere.g. the design of the counterin consumer products – key differentiator (e.g. iMac)
+--- Slide 85 ---
+colour and 3D
+both often used very badly!colourolder monitors limited palettecolour over used because ‘it is there’beware colour blind!use sparingly to reinforce other information3D effectsgood for physical information and some graphsbut if over used …	e.g. text in perspective!!  3D pie charts
+--- Slide 86 ---
+bad use of colour
+over use - without very good reason (e.g. kids’ site)colour blindnesspoor use of contrastdo adjust your set!adjust your monitor to greys onlycan you still read your screen?
+--- Slide 87 ---
+across countries and cultures
+localisation & internationalisationchanging interfaces for particular cultures/languagesglobalisationtry to choose symbols etc. that work everywheresimply change language?use ‘resource’ database instead of literal text… but changes sizes, left-right order etc.deeper issuescultural assumptions and valuesmeanings of symbolse.g tick and cross …  +ve and -ve in some cultures      … but … mean the same thing (mark this) in others
+
+
+--- Slide 88 ---
+--- Slide 89 ---
+prototyping
+--- Slide 90 ---
+iteration and prototyping
+getting better …… and starting well
+--- Slide 91 ---
+prototyping
+you never get it right first timeif at first you don’t succeed …
+--- Slide 92 ---
+pitfalls of prototyping
+moving little by little … but to whereMalverns or the Matterhorn?
+1.   need a good start point   2.   need to understand what is wrong

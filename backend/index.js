@@ -17,6 +17,8 @@ app.use('/images', express.static(path.join(__dirname, 'prisma/images')));
 app.use('/api/auth', authRoutes);
 app.use('/api/items', itemsRoutes);
 app.use('/api/upload', uploadRoutes);
+const notificationsRoutes = require('./routes/notifications');
+app.use('/api/notifications', notificationsRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

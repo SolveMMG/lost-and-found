@@ -1,0 +1,130 @@
+--- Slide 1 ---
+chapter 1
+the human
+--- Slide 2 ---
+the human
+Information i/o …visual, auditory, haptic, movementInformation stored in memorysensory, short-term, long-termInformation processed and appliedreasoning, problem solving, skill, errorEmotion influences human capabilitiesEach person is different
+--- Slide 3 ---
+Vision
+Two stages in vision• physical reception of stimulus• processing and interpretation of stimulus
+--- Slide 4 ---
+The Eye - physical reception
+mechanism for receiving light and transforming it into electrical energylight reflects from objectsimages are focused upside-down on retinaretina contains rods for low light vision and cones for colour visionganglion cells (brain!) detect pattern and movement
+--- Slide 5 ---
+Interpreting the signal
+Size and depthvisual angle indicates how much of view object occupies	(relates to size and distance from eye)visual acuity is ability to perceive detail (limited)familiar objects perceived as constant size 	(in spite of changes in visual angle when far away)cues like overlapping help perception of size and depth
+--- Slide 6 ---
+Interpreting the signal (cont)
+Brightnesssubjective reaction to levels of lightaffected by luminance of objectmeasured by just noticeable differencevisual acuity increases with luminance as does flickerColourmade up of hue, intensity, saturationcones sensitive to colour wavelengthsblue acuity is lowest8% males and 1% females colour blind
+--- Slide 7 ---
+Interpreting the signal (cont)
+The visual system compensates for:movementchanges in luminance.Context is used to resolve ambiguityOptical illusions sometimes occur due to over compensation
+--- Slide 8 ---
+Optical Illusions
+the Ponzo illusion
+the Muller Lyer illusion
+--- Slide 9 ---
+Reading
+Several stages:visual pattern perceiveddecoded using internal representation of languageinterpreted using knowledge of syntax, semantics, pragmaticsReading involves saccades and fixationsPerception occurs during fixationsWord shape is important to recognitionNegative contrast improves reading from computer screen
+--- Slide 10 ---
+Hearing
+Provides information about environment:	distances, directions, objects etc.Physical apparatus:outer ear	–	protects inner and amplifies soundmiddle ear	–	transmits sound waves as			vibrations to inner earinner ear	–	chemical transmitters are released			and cause impulses in auditory nerveSoundpitch	–	sound frequencyloudness 	–	amplitudetimbre	–	type or quality
+--- Slide 11 ---
+Hearing (cont)
+Humans can hear frequencies from 20Hz to 15kHzless accurate distinguishing high frequencies than low.Auditory system filters soundscan attend to sounds over background noise. for example, the cocktail party phenomenon.
+--- Slide 12 ---
+Touch
+Provides important feedback about environment.May be key sense for someone who is visually impaired.Stimulus received via receptors in the skin:thermoreceptors	– heat and coldnociceptors	– painmechanoreceptors	– pressure		      (some instant, some continuous)Some areas more sensitive than others e.g. fingers.Kinethesis  - awareness of body position affects comfort and performance.
+--- Slide 13 ---
+Movement
+Time taken to respond to stimulus:	reaction time + movement timeMovement time dependent on age, fitness etc.Reaction time - dependent on stimulus type:visual	~ 200msauditory	~ 150 mspain	~ 700msIncreasing reaction time decreases accuracy in the unskilled operator but not in the skilled operator.
+--- Slide 14 ---
+Movement (cont)
+Fitts' Law describes the time taken to hit a screen target:		Mt = a + b log2(D/S + 1)where:	a and b are empirically determined constants	Mt is movement time	D is Distance 	S is Size of targettargets as large as possibledistances as small as possible
+--- Slide 15 ---
+Memory
+There are three types of memory function:Sensory memories	Short-term memory or working memory					Long-term memorySelection of stimuli governed by level of arousal.
+--- Slide 16 ---
+sensory memory
+Buffers for stimuli received through sensesiconic memory: visual stimuliechoic memory: aural stimulihaptic memory: tactile stimuliExamples“sparkler” trailstereo soundContinuously overwritten
+--- Slide 17 ---
+Short-term memory (STM)
+Scratch-pad for temporary recallrapid access ~ 70msrapid decay ~ 200mslimited capacity - 7± 2 chunks
+--- Slide 18 ---
+Examples
+2123482784932020121 414 2626HEC ATR ANU PTH ETR EET
+--- Slide 19 ---
+Long-term memory (LTM)
+Repository for all our knowledgeslow access ~ 1/10 secondslow decay, if anyhuge or unlimited capacityTwo typesepisodic	– serial memory of eventssemantic	– structured memory of facts,concepts, skillssemantic LTM derived from episodic LTM
+--- Slide 20 ---
+Long-term memory (cont.)
+Semantic memory structureprovides access to informationrepresents relationships between bits of informationsupports inferenceModel: semantic networkinheritance – child nodes inherit properties of parent nodesrelationships between bits of information explicitsupports inference through inheritance
+--- Slide 21 ---
+LTM - semantic network
+--- Slide 22 ---
+Models of LTM - Frames
+Information organized in data structuresSlots in structure instantiated with values for instance of dataType–subtype relationships
+DOG  Fixed       legs: 4  Default       diet:  carniverous       sound:  bark  Variable       size:       colour
+COLLIE  Fixed       breed of:  DOG       type:  sheepdog  Default       size:  65 cm  Variable       colour
+--- Slide 23 ---
+Models of LTM - Scripts
+Model of stereotypical information required to interpret situationScript has elements that can be instantiated with values for context
+--- Slide 24 ---
+Models of LTM - Production rules
+Representation of procedural knowledge. Condition/action rules if condition is matchedthen use rule to determine action.
+IF dog is wagging tailTHEN pat dogIF dog is growlingTHEN run away
+--- Slide 25 ---
+LTM - Storage of information
+rehearsalinformation moves from STM to LTMtotal time hypothesisamount retained proportional to rehearsal timedistribution of practice effectoptimized by spreading learning over timestructure, meaning and familiarityinformation easier to remember
+--- Slide 26 ---
+LTM - Forgetting
+decayinformation is lost gradually but very slowlyinterferencenew information replaces old: retroactive interferenceold may interfere with new: proactive inhibition so may not forget at all memory is selective …… affected by emotion – can subconsciously `choose' to forget
+--- Slide 27 ---
+LTM - retrieval
+recall information reproduced from memory can be assisted by cues, e.g. categories, imageryrecognitioninformation gives knowledge that it has been seen beforeless complex than recall - information is cue
+--- Slide 28 ---
+Thinking
+Reasoning	deduction, induction, abductionProblem solving
+--- Slide 29 ---
+Deductive Reasoning
+Deduction:derive logically necessary conclusion from given premises.	e.g.	If it is Friday then she will go to work		It is Friday		Therefore she will go to work.Logical conclusion not necessarily true:	e.g.	If it is raining then the ground is dry		It is raining		Therefore the ground is dry
+--- Slide 30 ---
+Deduction (cont.)
+When truth and logical validity clash …	e.g.	Some people are babies		Some babies cry		Inference - Some people cryCorrect?People bring world knowledge to bear
+--- Slide 31 ---
+Inductive Reasoning
+Induction:generalize from cases seen to cases unseene.g.	all elephants we have seen have trunks	therefore all elephants have trunks.Unreliable:can only prove false not true… but useful!Humans not good at using negative evidencee.g. Wason's cards.
+--- Slide 32 ---
+Wason's cards
+Is this true?How many cards do you need to turn over to find out?…. and which cards?
+If a card has a vowel on one side it has an even number on the other
+--- Slide 33 ---
+Abductive reasoning
+reasoning from event to causee.g.	Sam drives fast when drunk.	If I see Sam driving fast, assume drunk.Unreliable:can lead to false explanations
+--- Slide 34 ---
+Problem solving
+Process of finding solution to unfamiliar task using knowledge.Several theories.Gestaltproblem solving both productive and reproductiveproductive draws on insight and restructuring of problemattractive but not enough evidence to explain `insight' etc.move away from behaviourism and led towards information processing theories
+--- Slide 35 ---
+Problem solving (cont.)
+Problem space theoryproblem space comprises problem statesproblem solving involves generating states using legal operatorsheuristics may be employed to select operators	e.g. means-ends analysisoperates within human information processing system	e.g. STM limits etc.largely applied to problem solving in well-defined areas	e.g. puzzles rather than knowledge intensive areas
+--- Slide 36 ---
+Problem solving (cont.)
+Analogyanalogical mapping:novel problems in new domain?use knowledge of similar problem from similar domain analogical mapping difficult if domains are semantically differentSkill acquisitionskilled activity characterized by chunkinglot of information is chunked to optimize STMconceptual rather than superficial grouping of problemsinformation is structured more effectively
+--- Slide 37 ---
+Errors and mental models
+Types of errorslips 	right intention, but failed to do it right	causes: poor physical skill,inattention etc.	change to aspect of skilled behaviour can cause slipmistakes	wrong intention	cause: incorrect understandinghumans create mental models to explain behaviour.if wrong (different from actual system) errors can occur
+--- Slide 38 ---
+Emotion
+Various theories of how emotion worksJames-Lange: emotion is our interpretation of a physiological response to a stimuliCannon: emotion is a psychological response to a stimuliSchacter-Singer: emotion is the result of our evaluation of our physiological responses, in the light of the whole situation we are inEmotion clearly involves both cognitive and physical responses to stimuli
+--- Slide 39 ---
+Emotion (cont.)
+The biological response to physical stimuli is called affect Affect influences how we respond to situationspositive  creative problem solvingnegative  narrow thinking“Negative affect can make it harder to do even easy tasks; positive affect can make it easier to do difficult tasks” (Donald Norman)
+--- Slide 40 ---
+Emotion (cont.)
+Implications for interface designstress will increase the difficulty of problem solvingrelaxed users will be more forgiving of shortcomings in designaesthetically pleasing and rewarding interfaces will increase positive affect
+--- Slide 41 ---
+Individual differences
+long term	–  sex, physical and intellectual abilitiesshort term	–  effect of stress or fatiguechanging	–  ageAsk yourself:will design decision exclude section of user population?
+--- Slide 42 ---
+Psychology and the Design of Interactive System
+Some direct applicationse.g.	blue acuity is poor	 blue should not be used for important detailHowever, correct application generally requires understanding of context in psychology, and an understanding of particular experimental conditionsA lot of knowledge has been distilled inguidelines (chap 7)cognitive models (chap 12)experimental and analytic evaluation techniques (chap 9)

@@ -1,0 +1,75 @@
+--- Slide 1 ---
+chapter 13
+socio-organizational issues and stakeholder requirements
+--- Slide 2 ---
+socio-organizational issues and stakeholder requirements
+Organizational issues affect acceptanceconflict & power, who benefits, encouraging useStakeholders identify their requirements in organizational contextSocio-technical models human and technical requirementsSoft systems methodology broader view of human and organizational issuesParticipatory design includes the user directly in the design processEthnographic methodsstudy users in context, unbiased perspective
+--- Slide 3 ---
+Organisational issues
+Organisational factors can make or break a systemStudying the work group is not sufficientany system is used within a wider contextand the crucial people need not be direct usersBefore installing a new system must understand:who benefitswho puts in effortthe balance of power in the organisation… and how it will be affectedEven when a system is successful… it may be difficult to measure that success
+--- Slide 4 ---
+Conflict and power
+CSCW = computer supported cooperative workpeople and groups have conflicting goalssystems assuming cooperation will fail!e.g. computerise stock control	stockman looses control of information	 	  subverts the systemidentify stakeholders – not just the users
+?
+--- Slide 5 ---
+Organisational structures
+Groupware affects organisational structurescommunication structures reflect line managementemail – cross-organisational communicationDisenfranchises lower management		 disaffected staff and ‘sabotage’Technology can be used to change management style and power structuresbut need to know that is what we are doingand more often an accident !
+--- Slide 6 ---
+Invisible workers
+Telecommunications improvements allow:neighbourhood workcentreshome-based tele-workingMany ecological and economic benefitsreduce car travelflexible family commitmentsbut:‘management by presence’ doesn't workpresence increases perceived worthproblems for promotionBarriers to tele-working are managerial/social not technological
+--- Slide 7 ---
+Benefits for all?
+Disproportionate effort	who puts in the effort ≠ who gets the benefitExample: shared diary:effort: secretaries and subordinates, enter databenefit: manager easy to arrange meetingsresult: falls into disuseSolutions:coerce use !design in symmetry
+--- Slide 8 ---
+Free rider problem
+no bias, but still problempossible to get benefit without doing workif everyone does it, system falls into disusee.g. electronic conferences	– possible to read but never contributesolutions:strict protocols (e.g., round robin)increase visibility – rely on social pressure
+--- Slide 9 ---
+Critical mass
+Early telephone system:few subscribers – no one to ringlots of subscribers – never stops ringing!Electronic communications similar:benefit  number of subscribersearly users have negative cost/benefitneed critical mass to give net benefitsHow to get started?look for cliques to form core user basedesign to benefit an initial small user base
+--- Slide 10 ---
+Critical mass
+--- Slide 11 ---
+Evaluating the benefits
+Assuming we have avoided the pitfalls!How do we measure our success?job satisfaction and information flow		–  hard to measureeconomic benefit		–  diffuse throughout organisationBut ..costs of hardware and software		… only too obviousPerhaps we have to rely on hype!
+--- Slide 12 ---
+capturing requirements
+need to identify requirements within context of useneed to take account of stakeholderswork groups and practicesorganisational contextmany approaches includingsocio-technical modellingsoft system modellingparticipatory designcontextual inquiry
+--- Slide 13 ---
+who are the stakeholders?
+system will have many stakeholders with potentially conflicting interestsstakeholder is anyone effected by success or failure of systemprimary - actually use systemsecondary - receive output or provide inputtertiary - no direct involvement but effected by success or failurefacilitating - involved in development or deployment of system
+--- Slide 14 ---
+who are the stakeholders?
+Example: Classifying stakeholders – an airline booking systemAn international airline is considering introducing a new booking system for use by associated travel agents to sell flights directly to the public.Primary stakeholders: travel agency staff, airline booking staffSecondary stakeholders: customers, airline managementTertiary stakeholders: competitors, civil aviation authorities, customers’ travelling companions, airline shareholdersFacilitating stakeholders: design team, IT department staff
+--- Slide 15 ---
+who are the stakeholders?
+designers need to meet as many stakeholder needs as possibleusually in conflict so have to prioritiseoften priority decreases as move down categories e.g. primary most importantnot always e.g. life support machine
+--- Slide 16 ---
+socio-technical modelling
+response to technological determinismconcerned with technical, social, organizational and human aspects of designdescribes impact of specific technology on organizationinformation gathering: interviews, observation, focus groups, document analysisseveral approaches e.g.CUSTOMOSTA
+--- Slide 17 ---
+CUSTOM
+Six stage process - focus on stakeholdersdescribe organizational context, including primary goals, physical characteristics, political and economic backgroundidentify and describe stakeholders including personal issues, role in the organization and job identify and describe work-groups whether formally constituted or not identify and describe task–object pairs i.e. tasks to be performed and objects used identify stakeholder needs:  stages 2–4 described in terms of both current and proposed system - stakeholder needs are identified from the differences between the twoconsolidate and check stakeholder requirements against earlier criteria
+--- Slide 18 ---
+OSTA
+Eight stage model - focus on taskprimary task identified in terms of users’ goalstask inputs to system identifiedexternal environment into which the system will be introduced is described, including physical, economic and political aspectstransformation processes within the system are described in terms of actions performed on or with objectssocial system is analyzed, considering existing internal and external work-groups and relationships technical system is described in terms of configuration and integration with other systemsperformance satisfaction criteria are established, indicating social and technical requirements of systemnew technical system is specified
+--- Slide 19 ---
+soft systems methodology
+no assumption of technological solution - emphasis on understanding situation fullydeveloped by Checklandseven stagesrecognition of problem and initiation of analysisdetailed description of problem situationrich picturegenerate root definitions of systemCATWOEconceptual model - identifying transformationscompare real world to conceptual modelidentify necessary changesdetermine actions to effect changes
+--- Slide 20 ---
+CATWOE
+Clients: those who receive output or benefit from the systemActors: those who perform activities within the systemTransformations: the changes that are affected by the systemWeltanschauung: (from the German) or World View - how the system is perceived in a particular root definitionOwner: those to whom the system belongs, to whom it is answerable and who can authorize changes to itEnvironment: the world in which the system operates and by which it is influenced
+--- Slide 21 ---
+Participatory design
+In participatory design:	workers enter into design contextIn ethnography (as used for design):	designer enters into work contextBoth make workers feel valued in design… encourage workers to ‘own’ the products
+--- Slide 22 ---
+Participatory Design
+User is an active member of the design team.Characteristicscontext and work oriented rather than system orientedcollaborativeiterativeMethodsbrain-stormingstoryboardingworkshopspencil and paper exercises
+--- Slide 23 ---
+ETHICS
+participatory socio-technical approach devised by Mumfordsystem development is about managing changenon-participants more likely to be dissatisfiedthree levels of participationconsultative, representative, consensusdesign groups including stakeholder representatives make design decisionsjob satisfaction is key to solution
+--- Slide 24 ---
+Ethnography
+very influential in CSCWa form of anthropological study with special focus on social relationshipsdoes not enter actively into situationseeks to understand social cultureunbiased and open ended
+--- Slide 25 ---
+contextual inquiry
+Approach developed by Holtzblattin ethnographic tradition but acknowledges  and challenges investigator focusmodel of investigator being apprenticed to user to learn about workinvestigation takes place in workplace - detailed interviews, observation, analysis of communications, physical workplace, artefactsnumber of models created:sequence, physical, flow, cultural, artefactmodels consolidated across usersoutput indicates task sequences, artefacts and communication channels needed and physical and cultural constraints

@@ -63,47 +63,6 @@ const handleViewDetails = (item: Item) => {
     return matchesSearch && matchesCategory;
   });
 
-  // If user is not signed in, show only app name, slogan, and sign in option
-if (!user) {
-  return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-100 via-indigo-100 to-purple-100 px-4">
-      {/* <div className="absolute top-4 left-4">
-        <img src="/usiu-logo.png" alt="USIU Logo" className="w-20 h-20 object-contain " />
-      </div> */}
-      <div className="flex flex-col items-center bg-white/80 rounded-2xl shadow-xl p-10 md:p-16 mb-8 border border-gray-100">
-        <div className="flex flex-col items-center space-y-3 mb-6">
-          <div className="flex items-center space-x-3">
-            <div className="w-14 h-14 bg-gradient-to-r from-black to-red-600 rounded-xl flex items-center justify-center shadow-lg">
-              <Search className="w-7 h-7 text-white" />
-            </div>
-            <h1 className="text-5xl font-extrabold bg-gradient-to-r from-black to-red-600 bg-clip-text text-transparent tracking-tight drop-shadow">
-              USIU Lost & Found
-            </h1>
-          </div>
-        </div>
-        <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-4 text-center max-w-lg">
-          Find What You've Lost, Help Others Find Theirs at USIU
-        </h2>
-        <p className="text-lg md:text-2xl text-gray-600 mb-10 max-w-2xl text-center">
-          Our digital lost property system connects USIU students with their missing belongings through smart matching and campus community support.
-        </p>
-        <Button
-          size="lg"
-          className="bg-gradient-to-r from-black to-red-600 text-white text-lg px-8 py-4 rounded-full shadow hover:from-red-700 hover:to-black transition"
-          onClick={() => setIsAuthModalOpen(true)}
-        >
-          Sign In
-        </Button>
-      </div>
-      <AuthModal
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-      />
-    </div>
-  );
-}
-
-  // If user is signed in, render the rest of the app (original content)
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Header */}
@@ -122,6 +81,16 @@ if (!user) {
             </div>
             
             <div className="flex items-center space-x-4">
+              {user && (
+                <Button
+                  size="sm"
+                  className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
+                  onClick={() => handleReportItem('lost')}
+                >
+                  <Plus className="w-4 h-4 mr-1" />
+                  Report Item
+                </Button>
+              )}
               {user && <NotificationCenter />}
               
               {user ? (
@@ -188,7 +157,7 @@ if (!user) {
 
         {/* Main Content */}
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid grid-cols-3 w-full max-w-md mx-auto mb-8">
+          <TabsList className={`grid ${isAdmin ? 'grid-cols-3' : 'grid-cols-2'} w-full max-w-md mx-auto mb-8`}>
             <TabsTrigger value="search">
               <Search className="w-4 h-4 mr-2" />
               Search
@@ -242,10 +211,28 @@ if (!user) {
               </CardContent>
             </Card>
 
+            {/* Active filter chips */}
+            {(selectedCategory !== 'all' || searchQuery) && (
+              <div className="flex flex-wrap gap-2 px-1">
+                {searchQuery && (
+                  <Badge variant="secondary" className="gap-1">
+                    Search: "{searchQuery}"
+                    <button onClick={() => setSearchQuery('')} className="ml-1 hover:text-red-500">×</button>
+                  </Badge>
+                )}
+                {selectedCategory !== 'all' && (
+                  <Badge variant="secondary" className="gap-1 capitalize">
+                    {selectedCategory}
+                    <button onClick={() => setSelectedCategory('all')} className="ml-1 hover:text-red-500">×</button>
+                  </Badge>
+                )}
+              </div>
+            )}
+
             {/* Items Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {loading ? (
-                Array.from({ length: 100 }).map((_, i) => (
+                Array.from({ length: 6 }).map((_, i) => (
                   <Card key={i} className="animate-pulse">
                     <div className="h-48 bg-gray-200 rounded-t-lg"></div>
                     <CardContent className="p-4">

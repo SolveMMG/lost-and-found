@@ -1,29 +1,40 @@
-import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useState, useEffect } from 'react';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { Loader2 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/hooks/use-toast';
+import { Item } from '@/hooks/useItems';
 
 interface ClaimItemModalProps {
   isOpen: boolean;
   onClose: () => void;
-  item: any;
+  item: Item | null;
   refreshItems?: () => void;
 }
 
 const ClaimItemModal = ({ isOpen, onClose, item, refreshItems }: ClaimItemModalProps) => {
   const { token } = useAuth();
+  const { toast } = useToast();
   const [name, setName] = useState('');
   const [contact, setContact] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [description, setDescription] = useState('');
-  const [claimed, setClaimed] = useState(item?.isClaimed || false);
+  const [claimed, setClaimed] = useState(false);
+
+  // Keep claimed in sync when item prop changes
+  useEffect(() => {
+    setClaimed(item?.isClaimed || false);
+  }, [item]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!token) {
-      setError('Please sign in to claim this item.');
+      setError(`Please sign in to ${item?.type === 'lost' ? 'report finding' : 'claim'} this item.`);
       return;
     }
     setIsSubmitting(true);
@@ -41,10 +52,15 @@ const ClaimItemModal = ({ isOpen, onClose, item, refreshItems }: ClaimItemModalP
         const data = await res.json();
         setError(data.error || 'Failed to submit claim');
       } else {
+        toast({
+          title: item?.type === 'lost' ? 'Report submitted' : 'Claim submitted',
+          description: item?.type === 'lost'
+            ? 'An admin will review and contact the reporter on your behalf.'
+            : 'An admin will review your claim and get in touch.',
+        });
         setName('');
         setContact('');
         setDescription('');
-        setClaimed(true);
         if (refreshItems) refreshItems();
         onClose();
       }
@@ -58,34 +74,75 @@ const ClaimItemModal = ({ isOpen, onClose, item, refreshItems }: ClaimItemModalP
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Claim This Item</DialogTitle>
+          <DialogTitle>{item?.type === 'lost' ? 'Found' : 'Claim'}: {item?.title}</DialogTitle>
+          <DialogDescription>
+            {item?.type === 'lost'
+              ? 'Fill in your details below. An admin will review and contact the reporter.'
+              : 'Fill in your details below. An admin will review your claim and contact you if approved.'}
+          </DialogDescription>
         </DialogHeader>
         {claimed ? (
-          <div className="text-green-600 text-center py-4">This item has been claimed.</div>
+          <div className="text-green-600 text-center py-4">
+            {item?.type === 'lost' ? 'Someone has already reported finding this item.' : 'This item has already been claimed.'}
+          </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
-            <Input
-              placeholder="Your Name"
-              value={name}
-              onChange={e => setName(e.target.value)}
-              required
-            />
-            <Input
-              placeholder="Email or Phone Number"
-              value={contact}
-              onChange={e => setContact(e.target.value)}
-              required
-            />
-            <Input
-              placeholder="Description (e.g. why you are claiming this item)"
-              value={description}
-              onChange={e => setDescription(e.target.value)}
-              required
-            />
+            <div className="space-y-2">
+              <Label htmlFor="claim-name">Your Name *</Label>
+              <Input
+                id="claim-name"
+                placeholder="Full name"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="claim-contact">Email or Phone *</Label>
+              <Input
+                id="claim-contact"
+                placeholder="How we can reach you"
+                value={contact}
+                onChange={e => setContact(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="claim-description">
+                {item?.type === 'lost' ? 'Where did you find it? *' : 'Proof of ownership *'}
+              </Label>
+              <Textarea
+                id="claim-description"
+                placeholder={item?.type === 'lost'
+                  ? 'Describe where and when you found the item, and its current condition.'
+                  : 'Describe something unique about the item that only the owner would know (colour, contents, serial number, etc.)'}
+
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+                rows={3}
+                required
+              />
+            </div>
+
             {error && <div className="text-red-500 text-sm">{error}</div>}
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Submitting...' : 'Submit Claim'}
-            </Button>
+
+            <div className="flex gap-3 pt-2">
+              <Button type="button" variant="outline" className="flex-1" onClick={onClose}>
+                Cancel
+              </Button>
+              <Button type="submit" disabled={isSubmitting} className="flex-1 bg-blue-600 hover:bg-blue-700">
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Submitting...
+                  </>
+                ) : (
+                  item?.type === 'lost' ? 'Submit Found Report' : 'Submit Claim'
+                )}
+              </Button>
+            </div>
           </form>
         )}
       </DialogContent>
@@ -94,4 +151,3 @@ const ClaimItemModal = ({ isOpen, onClose, item, refreshItems }: ClaimItemModalP
 };
 
 export default ClaimItemModal;
-
