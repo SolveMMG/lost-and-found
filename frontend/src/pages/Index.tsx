@@ -15,6 +15,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useItems, Item } from '@/hooks/useItems';
 import ItemDetailsModal from '@/components/items/ItemDetailsModal';
 import ClaimItemModal from '@/components/items/ClaimItemModal';
+import LogoutButton from '@/components/auth/LogoutButton';
 
 const Index = () => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -93,31 +94,29 @@ const handleViewDetails = (item: Item) => {
               )}
               {user && <NotificationCenter />}
               
-              {user ? (
-                <div className="flex items-center space-x-3">
-                  <Badge variant={isAdmin ? "destructive" : "secondary"}>
-                    {isAdmin ? (
-                      <>
-                        <Shield className="w-3 h-3 mr-1" />
-                        Admin
-                      </>
-                    ) : (
-                      <>
-                        <User className="w-3 h-3 mr-1" />
-                        User
-                      </>
-                    )}
-                  </Badge>
-                  <span className="text-sm text-gray-600">Welcome, {user.name}</span>
-                  <Button variant="outline" size="sm" onClick={logout}>
-                    Logout
-                  </Button>
-                </div>
+         {user ? (
+          <div className="flex items-center space-x-3">
+            <Badge variant={isAdmin ? "destructive" : "secondary"}>
+              {isAdmin ? (
+                <>
+                  <Shield className="w-3 h-3 mr-1" />
+                  Admin
+                </>
               ) : (
-                <Button onClick={() => setIsAuthModalOpen(true)}>
-                  Sign In
-                </Button>
+                <>
+                  <User className="w-3 h-3 mr-1" />
+                  User
+                </>
               )}
+            </Badge>
+            <span className="text-sm text-gray-600">Welcome, {user.name}</span>
+            <LogoutButton /> {/* Use the component here */}
+          </div>
+        ) : (
+          <Button onClick={() => setIsAuthModalOpen(true)}>
+            Sign In
+          </Button>
+        )}
             </div>
           </div>
         </div>

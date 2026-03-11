@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,7 +23,6 @@ import { useItems, Item, Claim } from '@/hooks/useItems';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import ItemDetailsModal from '@/components/items/ItemDetailsModal';
-
 
 const AdminDashboard = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -52,6 +50,14 @@ const AdminDashboard = () => {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [selectedClaim, setSelectedClaim] = useState<Claim | null>(null);
   const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
+  
+  // State for tracking which action is being confirmed
+  const [pendingAction, setPendingAction] = useState<{
+    itemId: string;
+    action: 'verified' | 'matched' | 'resolved';
+    itemTitle: string;
+  } | null>(null);
+
   const handleStatusUpdate = async (itemId: string, newStatus: 'verified' | 'matched' | 'resolved') => {
     await updateItemStatus(itemId, newStatus, token);
     const labels: Record<string, string> = {
@@ -60,7 +66,9 @@ const AdminDashboard = () => {
       resolved: 'Item marked as resolved',
     };
     toast({ title: labels[newStatus] });
+    setPendingAction(null); // Clear pending action after completion
   };
+
   const handleViewDetails = (item: Item) => {
     setSelectedItem(item);
     setIsDetailsOpen(true);
@@ -69,6 +77,11 @@ const AdminDashboard = () => {
   const handleViewClaim = (claim: Claim) => {
     setSelectedClaim(claim);
     setIsClaimModalOpen(true);
+  };
+
+  // Function to initiate confirmation
+  const confirmAction = (itemId: string, action: 'verified' | 'matched' | 'resolved', itemTitle: string) => {
+    setPendingAction({ itemId, action, itemTitle });
   };
 
   return (
@@ -219,7 +232,6 @@ const AdminDashboard = () => {
                           View
                         </Button>
                         
-                        
                         {item.claims && item.claims.length > 0 && (
                           <div className="flex gap-2">
                             <Button size="sm" variant="outline" onClick={() => handleViewClaim(item.claims[0])}>
@@ -227,38 +239,91 @@ const AdminDashboard = () => {
                               View Claim
                             </Button>
                             {item.status !== 'resolved' && (
-                              <Button
-                                size="sm"
-                                className="bg-green-600 hover:bg-green-700"
-                                onClick={() => handleStatusUpdate(item.id, 'matched')}
-                              >
-                                <CheckCircle className="w-4 h-4 mr-1" />
-                                Approve Claim
-                              </Button>
+                              <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                  <Button
+                                    size="sm"
+                                    className="bg-green-600 hover:bg-green-700"
+                                  >
+                                    <CheckCircle className="w-4 h-4 mr-1" />
+                                    Approve Claim
+                                  </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                  <AlertDialogHeader>
+                                    <AlertDialogTitle>Approve Claim?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                      This will mark "{item.title}" as matched. This means the claim has been approved and the item will be marked as claimed.
+                                    </AlertDialogDescription>
+                                  </AlertDialogHeader>
+                                  <AlertDialogFooter>
+                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction onClick={() => handleStatusUpdate(item.id, 'matched')}>
+                                      Confirm Approval
+                                    </AlertDialogAction>
+                                  </AlertDialogFooter>
+                                </AlertDialogContent>
+                              </AlertDialog>
                             )}
                           </div>
                         )}
+                        
                         {item.status === 'pending' && (
                           <div className="flex gap-2">
-                            <Button 
-                              size="sm"
-                              onClick={() => handleStatusUpdate(item.id, 'verified')}
-                              className="bg-green-600 hover:bg-green-700"
-                            >
-                              <CheckCircle className="w-4 h-4 mr-1" />
-                              Approve Report
-                            </Button>
+                            <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                <Button 
+                                  size="sm"
+                                  className="bg-green-600 hover:bg-green-700"
+                                >
+                                  <CheckCircle className="w-4 h-4 mr-1" />
+                                  Approve Report
+                                </Button>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>Approve Report?</AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    This will verify "{item.title}" and make it visible to all students. 
+                                    Make sure the report follows the guidelines before approving.
+                                  </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                  <AlertDialogAction onClick={() => handleStatusUpdate(item.id, 'verified')}>
+                                    Approve Report
+                                  </AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
                           </div>
                         )}
                         
                         {item.status === 'verified' && (
-                          <Button 
-                            size="sm"
-                            onClick={() => handleStatusUpdate(item.id, 'matched')}
-                            className="bg-blue-600 hover:bg-blue-700"
-                          >
-                            Match Found
-                          </Button>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button 
+                                size="sm"
+                                className="bg-blue-600 hover:bg-blue-700"
+                              >
+                                Match Found
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Mark as Matched?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  This will mark "{item.title}" as matched. This indicates that a potential match has been found for this item.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => handleStatusUpdate(item.id, 'matched')}>
+                                  Confirm Match
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
                         )}
                         
                         {item.status === 'matched' && (
@@ -272,13 +337,13 @@ const AdminDashboard = () => {
                               <AlertDialogHeader>
                                 <AlertDialogTitle>Mark as Resolved?</AlertDialogTitle>
                                 <AlertDialogDescription>
-                                  This will close the "{item.title}" report. This action is hard to reverse.
+                                  This will close the "{item.title}" report. This action cannot be undone.
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
                               <AlertDialogFooter>
                                 <AlertDialogCancel>Cancel</AlertDialogCancel>
                                 <AlertDialogAction onClick={() => handleStatusUpdate(item.id, 'resolved')}>
-                                  Confirm
+                                  Confirm Resolved
                                 </AlertDialogAction>
                               </AlertDialogFooter>
                             </AlertDialogContent>
@@ -298,11 +363,13 @@ const AdminDashboard = () => {
           </div>
         </CardContent>
       </Card>
+      
       <ItemDetailsModal
         isOpen={isDetailsOpen}
         onClose={() => setIsDetailsOpen(false)}
         item={selectedItem}
       />
+      
       {/* Claim Modal */}
       {selectedClaim && (
         <Dialog open={isClaimModalOpen} onOpenChange={setIsClaimModalOpen}>

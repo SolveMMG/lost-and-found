@@ -14,7 +14,10 @@ interface AuthContextType {
   isAdmin: boolean;
   register: (name: string, email: string, password: string) => Promise<boolean>;
   login: (email: string, password: string) => Promise<boolean>;
-  logout: () => void;
+  logout: () => void; // This now triggers the confirmation dialog
+  confirmLogout: () => void; // This performs the actual logout
+  cancelLogout: () => void;
+  showLogoutDialog: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -25,6 +28,7 @@ export const AuthProvider = ({ children }) => {
     return stored ? JSON.parse(stored) : null;
   });
   const [token, setToken] = useState(() => localStorage.getItem("token") || "");
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
 
   const register = async (name: string, email: string, password: string) => {
     try {
@@ -74,18 +78,39 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // This now SHOWS the confirmation dialog instead of logging out immediately
   const logout = () => {
+    setShowLogoutDialog(true);
+  };
+
+  // This performs the actual logout
+  const confirmLogout = () => {
     setUser(null);
     setToken("");
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     toast({ title: "Logged out", description: "You have been logged out." });
+    setShowLogoutDialog(false);
+  };
+
+  const cancelLogout = () => {
+    setShowLogoutDialog(false);
   };
 
   const isAdmin = user?.isAdmin === true;
 
   return (
-    <AuthContext.Provider value={{ user, token, isAdmin, register, login, logout }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      token, 
+      isAdmin, 
+      register, 
+      login, 
+      logout, // This now triggers the dialog
+      confirmLogout, // This actually logs out
+      cancelLogout,
+      showLogoutDialog
+    }}>
       {children}
     </AuthContext.Provider>
   );
