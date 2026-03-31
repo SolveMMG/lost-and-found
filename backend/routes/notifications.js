@@ -1,45 +1,57 @@
 const express = require('express');
 const router = express.Router();
-const { PrismaClient } = require('@prisma/client');
 const { requireAuth: auth } = require('../middleware/auth');
-const prisma = new PrismaClient();
+const prisma = require('../prisma/client');
 
-// GET /api/notifications — returns recent status changes on user's items
+// GET /api/notifications — user's notifications, newest first
 router.get('/', auth, async (req, res) => {
   try {
-    const items = await prisma.item.findMany({
-      where: { reporterId: req.user.id },
-      select: { id: true, title: true, status: true, isClaimed: true },
-      orderBy: { dateReported: 'desc' },
-      take: 20,
+    const notifications = await prisma.notification.findMany({
+      where: { userId: req.user.id },
+      orderBy: { createdAt: 'desc' },
+      take: 50,
     });
-
-    const notifications = items.flatMap(item => {
-      const notes = [];
-      if (item.status === 'verified') {
-        notes.push({
-          id: `${item.id}-verified`,
-          type: 'status',
-          title: 'Item Approved',
-          message: `"${item.title}" has been verified and is now visible on the feed.`,
-          read: false,
-        });
-      }
-      if (item.isClaimed) {
-        notes.push({
-          id: `${item.id}-claimed`,
-          type: 'match',
-          title: 'Claim Received',
-          message: `Someone has claimed "${item.title}". Check the admin dashboard.`,
-          read: false,
-        });
-      }
-      return notes;
-    });
-
     res.json(notifications);
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'Failed to fetch notifications' });
+  }
+});
+
+// PATCH /api/notifications/:id/read — mark one as read
+router.patch('/:id/read', auth, async (req, res) => {
+  try {
+    await prisma.notification.updateMany({
+      where: { id: req.params.id, userId: req.user.id },
+      data: { read: true },
+    });
+    res.json({ ok: true });
+  } catch {
+    res.status(500).json({ error: 'Failed to mark notification as read' });
+  }
+});
+
+// PATCH /api/notifications/read-all — mark all as read
+router.patch('/read-all', auth, async (req, res) => {
+  try {
+    await prisma.notification.updateMany({
+      where: { userId: req.user.id, read: false },
+      data: { read: true },
+    });
+    res.json({ ok: true });
+  } catch {
+    res.status(500).json({ error: 'Failed to mark all notifications as read' });
+  }
+});
+
+// DELETE /api/notifications/:id — delete one notification
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    await prisma.notification.deleteMany({
+      where: { id: req.params.id, userId: req.user.id },
+    });
+    res.json({ ok: true });
+  } catch {
+    res.status(500).json({ error: 'Failed to delete notification' });
   }
 });
 

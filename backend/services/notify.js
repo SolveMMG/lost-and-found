@@ -78,4 +78,23 @@ async function notifyAdmin(subject, message) {
   }
 }
 
-module.exports = { notify, notifyAdmin, sendEmail, sendSMS };
+// ── In-app (database) notifications ───────────────────────────────────────────
+
+async function inAppNotify(prisma, userId, type, title, message) {
+  try {
+    await prisma.notification.create({ data: { userId, type, title, message } });
+  } catch (err) {
+    console.error('[notify] In-app notification error:', err.message);
+  }
+}
+
+async function inAppNotifyAdmins(prisma, type, title, message) {
+  try {
+    const admins = await prisma.user.findMany({ where: { isAdmin: true }, select: { id: true } });
+    await Promise.all(admins.map(admin => inAppNotify(prisma, admin.id, type, title, message)));
+  } catch (err) {
+    console.error('[notify] In-app admin notification error:', err.message);
+  }
+}
+
+module.exports = { notify, notifyAdmin, sendEmail, sendSMS, inAppNotify, inAppNotifyAdmins };

@@ -2,7 +2,7 @@ const express = require('express');
 const { z } = require('zod');
 const { requireAuth } = require('../middleware/auth');
 const prisma = require('../prisma/client');
-const { notify, notifyAdmin } = require('../services/notify');
+const { notify, notifyAdmin, inAppNotify, inAppNotifyAdmins } = require('../services/notify');
 const router = express.Router();
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
@@ -73,10 +73,16 @@ router.post('/', requireAuth, async (req, res) => {
       include: { reporter: true, owner: true },
     });
 
-    // Notify admin that a new item was reported
+    // In-app: notify all admins
+    inAppNotifyAdmins(prisma, 'system',
+      'New item reported',
+      `${req.user.name || req.user.email} reported a ${type} item: "${title}" at ${location}.`,
+    );
+
+    // Email/SMS: notify admin
     notifyAdmin(
       'New item reported — USIU Lost & Found',
-      `A new ${type} item "${title}" was reported at ${location}. Log in to review and approve it.`,
+      `${req.user.name || req.user.email} reported a ${type} item "${title}" at ${location}. Log in to approve it.`,
     );
 
     res.status(201).json(mapItem(item));
@@ -105,20 +111,32 @@ router.post('/:id/claim', requireAuth, async (req, res) => {
       data: { name, contact, description, itemId, status: 'pending' },
     });
 
-    // Notify reporter that someone submitted a claim
+    // In-app: notify reporter
+    inAppNotify(prisma, item.reporterId, 'match',
+      'Claim received on your item',
+      `${name} has submitted a claim for your reported item "${item.title}". An admin will review it.`,
+    );
+
+    // In-app: notify all admins
+    inAppNotifyAdmins(prisma, 'system',
+      'New claim submitted',
+      `${name} (${contact}) submitted a claim for "${item.title}". Review it in the admin dashboard.`,
+    );
+
+    // Email/SMS: notify reporter
     const reporterContact = item.reporter?.phone || item.reporter?.email;
     if (reporterContact) {
       notify(
         reporterContact,
-        `Claim submitted for your item — USIU Lost & Found`,
-        `${name} has submitted a claim for your reported item "${item.title}". Log in to review it.`,
+        'Claim submitted for your item — USIU Lost & Found',
+        `${name} has submitted a claim for your item "${item.title}". An admin will review it.`,
       );
     }
 
-    // Notify admin
+    // Email/SMS: notify admin
     notifyAdmin(
       `New claim on "${item.title}" — USIU Lost & Found`,
-      `${name} (${contact}) has submitted a claim for "${item.title}". Log in to review it.`,
+      `${name} (${contact}) submitted a claim for "${item.title}". Log in to review it.`,
     );
 
     res.json({ message: 'Claim submitted. Admin will review your request.' });
@@ -151,20 +169,26 @@ router.patch('/:id/claims/:claimId/approve', requireAuth, async (req, res) => {
       data: { isClaimed: true },
     });
 
-    // Notify claimant
-    notify(
-      claim.contact,
-      `Your claim was approved — USIU Lost & Found`,
-      `Great news! Your claim for "${claim.item.title}" has been approved by the admin. Please visit the lost & found office to collect it.`,
+    // In-app: notify reporter
+    inAppNotify(prisma, claim.item.reporterId, 'match',
+      'Claim approved for your item',
+      `The claim by ${claim.name} for "${claim.item.title}" has been approved. The item will be returned to its owner.`,
     );
 
-    // Notify reporter
+    // Email/SMS: notify claimant
+    notify(
+      claim.contact,
+      'Your claim was approved — USIU Lost & Found',
+      `Great news! Your claim for "${claim.item.title}" has been approved. Please visit the lost & found office to collect it.`,
+    );
+
+    // Email/SMS: notify reporter
     const reporterContact = claim.item.reporter?.phone || claim.item.reporter?.email;
     if (reporterContact) {
       notify(
         reporterContact,
-        `Claim approved for your item — USIU Lost & Found`,
-        `The claim submitted by ${claim.name} for your item "${claim.item.title}" has been approved. The item will be returned to its owner.`,
+        'Claim approved for your item — USIU Lost & Found',
+        `The claim by ${claim.name} for "${claim.item.title}" has been approved.`,
       );
     }
 
@@ -186,11 +210,11 @@ router.patch('/:id/claims/:claimId/deny', requireAuth, async (req, res) => {
       include: { item: true },
     });
 
-    // Notify claimant
+    // Email/SMS: notify claimant
     notify(
       claim.contact,
-      `Your claim was not approved — USIU Lost & Found`,
-      `Unfortunately, your claim for "${claim.item.title}" was not approved after review. If you believe this is an error, please contact the lost & found office.`,
+      'Your claim was not approved — USIU Lost & Found',
+      `Unfortunately, your claim for "${claim.item.title}" was not approved. Contact the lost & found office if you believe this is an error.`,
     );
 
     res.json({ message: 'Claim denied', claim });
@@ -216,26 +240,37 @@ router.patch('/:id/status', requireAuth, async (req, res) => {
 
     const reporterContact = updatedItem.reporter?.phone || updatedItem.reporter?.email;
 
-    if (status === 'verified' && reporterContact) {
-      notify(
-        reporterContact,
-        `Your report was approved — USIU Lost & Found`,
-        `Your reported item "${updatedItem.title}" has been approved and is now visible to all students on the USIU Lost & Found feed.`,
+    if (status === 'verified') {
+      // In-app: notify reporter
+      inAppNotify(prisma, updatedItem.reporterId, 'status',
+        'Your report was approved',
+        `Your reported item "${updatedItem.title}" has been approved and is now visible on the USIU Lost & Found feed.`,
       );
+      // Email/SMS
+      if (reporterContact) {
+        notify(reporterContact,
+          'Your report was approved — USIU Lost & Found',
+          `Your item "${updatedItem.title}" has been approved and is now visible to all students.`,
+        );
+      }
     }
 
-    if (status === 'resolved' && reporterContact) {
-      notify(
-        reporterContact,
-        `Your item has been resolved — USIU Lost & Found`,
+    if (status === 'resolved') {
+      // In-app: notify reporter
+      inAppNotify(prisma, updatedItem.reporterId, 'status',
+        'Your item has been resolved',
         `The report for "${updatedItem.title}" has been marked as resolved. Thank you for using USIU Lost & Found.`,
       );
+      // Email/SMS
+      if (reporterContact) {
+        notify(reporterContact,
+          'Your item has been resolved — USIU Lost & Found',
+          `The report for "${updatedItem.title}" has been marked as resolved.`,
+        );
+      }
     }
 
-    res.json({
-      message: `Item status updated to ${status}`,
-      ...mapItem(updatedItem),
-    });
+    res.json({ message: `Item status updated to ${status}`, ...mapItem(updatedItem) });
   } catch {
     res.status(400).json({ error: 'Could not update item status' });
   }
@@ -252,10 +287,7 @@ router.patch('/:id/verify', requireAuth, async (req, res) => {
       data: { ownerId, status: 'verified' },
       include: { reporter: true, owner: true },
     });
-    res.json({
-      message: 'Item verified and owner assigned successfully',
-      ...mapItem(updatedItem),
-    });
+    res.json({ message: 'Item verified and owner assigned successfully', ...mapItem(updatedItem) });
   } catch {
     res.status(400).json({ error: 'Could not update item' });
   }
