@@ -8,6 +8,7 @@ export interface Claim {
   contact: string;
   description?: string;
   itemId: string;
+  status: 'pending' | 'approved' | 'denied';
   createdAt: string;
 }
 
@@ -42,15 +43,11 @@ export const useItems = () => {
     setLoading(true);
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/items`);
-      if (!res.ok) throw new Error("Failed to fetch items");
+      if (!res.ok) throw new Error('Failed to fetch items');
       const data = await res.json();
       setItems(data);
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Could not fetch items from the server.",
-        variant: "destructive",
-      });
+    } catch {
+      toast({ title: 'Error', description: 'Could not fetch items from the server.', variant: 'destructive' });
       setItems([]);
     }
     setLoading(false);
@@ -58,125 +55,82 @@ export const useItems = () => {
 
   useEffect(() => {
     fetchItems();
-  }, []);
+  }, [fetchItems]);
 
-  const searchItems = async (query: string, category: string) => {
-    setLoading(true);
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    let filtered = items;
-    
-    if (query) {
-      filtered = filtered.filter(item => 
-        item.title.toLowerCase().includes(query.toLowerCase()) ||
-        item.description.toLowerCase().includes(query.toLowerCase()) ||
-        item.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase()))
-      );
-    }
-    
-    if (category !== 'all') {
-      filtered = filtered.filter(item => item.category === category);
-    }
-    
-    setItems(filtered);
-    setLoading(false);
-  };
-
-  const addItem = async (itemData: Omit<Item, 'id' | 'dateReported' | 'dateOccurred' | 'userName' | 'userId'> & { dateReported: string; dateOccurred: string }, token: string) => {
+  const addItem = async (
+    itemData: Omit<Item, 'id' | 'dateReported' | 'dateOccurred' | 'userName' | 'userId'> & { dateReported: string; dateOccurred: string },
+    token: string,
+  ) => {
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/items`,
-        itemData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-      // After successful creation, fetch all items again to update state
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/items`, itemData, {
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      });
       await fetchItems();
       return response.data;
     } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(error.response?.data?.error || 'Failed to create item');
-      }
+      if (axios.isAxiosError(error)) throw new Error(error.response?.data?.error || 'Failed to create item');
       throw new Error('Failed to create item');
-    }
-  }
-
-  const checkForMatches = (newItem: Item) => {
-    const oppositeType = newItem.type === 'lost' ? 'found' : 'lost';
-    const potentialMatches = items.filter(item => 
-      item.type === oppositeType &&
-      item.category === newItem.category &&
-      item.status === 'verified' &&
-      (item.title.toLowerCase().includes(newItem.title.toLowerCase()) ||
-       item.tags.some(tag => newItem.tags.includes(tag)))
-    );
-
-    if (potentialMatches.length > 0) {
-      toast({
-        title: "Potential match found!",
-        description: `We found ${potentialMatches.length} potential match(es) for your item. Check your notifications.`,
-      });
     }
   };
 
-
   const updateItemStatus = async (itemId: string, status: Item['status'], token?: string) => {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/items/${itemId}/status`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
       body: JSON.stringify({ status }),
     });
-
-    if (!res.ok) throw new Error("Failed to update item status");
-
-    setItems(prev => prev.map(item => 
-      item.id === itemId ? { ...item, status } : item
-    ));
-
-    toast({
-      title: "Item status updated",
-      description: `Item status changed to ${status}`,
-    });
+    if (!res.ok) throw new Error('Failed to update item status');
+    setItems(prev => prev.map(item => (item.id === itemId ? { ...item, status } : item)));
+    toast({ title: 'Item status updated', description: `Status changed to ${status}` });
   };
 
   const verifyClaimedItem = async (itemId: string, ownerId: string, token?: string) => {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/items/${itemId}/verify`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
       body: JSON.stringify({ ownerId }),
     });
+    if (!res.ok) throw new Error('Failed to verify claimed item');
+    setItems(prev =>
+      prev.map(item => (item.id === itemId ? { ...item, ownerId, status: 'verified', isClaimed: true } : item)),
+    );
+    toast({ title: 'Item verified and owner assigned' });
+  };
 
-    if (!res.ok) throw new Error("Failed to verify claimed item");
-
-    setItems(prev => prev.map(item => 
-      item.id === itemId ? { ...item, ownerId, status: 'verified', isClaimed: true } : item
-    ));
-
-    toast({
-      title: "Item verified and owner assigned",
-      description: `Item has been verified and assigned to the owner.`,
+  const approveClaim = async (itemId: string, claimId: string, token: string) => {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/items/${itemId}/claims/${claimId}/approve`, {
+      method: 'PATCH',
+      headers: { Authorization: `Bearer ${token}` },
     });
+    if (!res.ok) throw new Error('Failed to approve claim');
+    await fetchItems();
+    toast({ title: 'Claim approved', description: 'The claimant has been notified.' });
+  };
+
+  const denyClaim = async (itemId: string, claimId: string, token: string) => {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/items/${itemId}/claims/${claimId}/deny`, {
+      method: 'PATCH',
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!res.ok) throw new Error('Failed to deny claim');
+    await fetchItems();
+    toast({ title: 'Claim denied', description: 'The claimant has been notified.' });
   };
 
   return {
     items,
     loading,
-    searchItems,
     addItem,
     updateItemStatus,
     verifyClaimedItem,
-    fetchItems 
+    approveClaim,
+    denyClaim,
+    fetchItems,
   };
 };
-

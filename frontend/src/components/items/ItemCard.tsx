@@ -91,7 +91,7 @@ const ItemCard = ({ item, onViewDetails, onClaim }: ItemCardProps) => {
           
           <div className="flex items-center text-sm text-gray-600">
             <User className="w-4 h-4 mr-2 text-gray-400" />
-            <span>Reported by {item.userName}</span>
+            <span>Reported by {item.reporterName}</span>
           </div>
         </div>
 
@@ -120,12 +120,24 @@ const ItemCard = ({ item, onViewDetails, onClaim }: ItemCardProps) => {
           {!item.isClaimed ? (
             <Button variant="outline" size="sm" className="flex-1" onClick={onClaim}>
               <MessageCircle className="w-4 h-4 mr-2" />
-              {item.type === 'lost' ? 'Found' : 'Claim'}
+              {item.type === 'lost' ? 'Found It' : 'Claim'}
+              {item.claims && item.claims.length > 0 && (
+                <Badge className="ml-1 px-1.5 py-0 text-xs bg-blue-100 text-blue-800 border-blue-300">
+                  {item.claims.length}
+                </Badge>
+              )}
             </Button>
           ) : (
-            <Badge className="flex-1 justify-center bg-green-100 text-green-800 border-green-300">
-              {item.type === 'lost' ? '✓ Found' : '✓ Claimed'}
-            </Badge>
+            <div className="flex items-center gap-1 flex-1">
+              <Badge className="flex-1 justify-center bg-green-100 text-green-800 border-green-300">
+                {item.type === 'lost' ? '✓ Found' : '✓ Claimed'}
+              </Badge>
+              {item.claims && item.claims.length > 0 && (
+                <Badge variant="outline" className="text-xs text-gray-500">
+                  {item.claims.length}
+                </Badge>
+              )}
+            </div>
           )}
         </div>
       </CardContent>

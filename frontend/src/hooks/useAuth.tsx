@@ -6,13 +6,14 @@ interface User {
   email: string;
   name?: string;
   isAdmin?: boolean;
+  phone?: string;
 }
 
 interface AuthContextType {
   user: User | null;
   token: string;
   isAdmin: boolean;
-  register: (name: string, email: string, password: string) => Promise<boolean>;
+  register: (name: string, email: string, password: string, phone?: string) => Promise<boolean>;
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => void; // This now triggers the confirmation dialog
   confirmLogout: () => void; // This performs the actual logout
@@ -30,12 +31,12 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(() => localStorage.getItem("token") || "");
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
 
-  const register = async (name: string, email: string, password: string) => {
+  const register = async (name: string, email: string, password: string, phone?: string) => {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ name, email, password, phone: phone || undefined }),
       });
       const data = await res.json();
       if (!res.ok) {

@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2, User, Mail, Lock, Shield, Eye, EyeOff } from 'lucide-react';
+import { Loader2, User, Mail, Lock, Phone, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 
 interface AuthModalProps {
@@ -17,7 +17,7 @@ interface AuthModalProps {
 const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [loginForm, setLoginForm] = useState({ email: '', password: '', showPassword: false });
-  const [registerForm, setRegisterForm] = useState({ name: '', email: '', password: '', confirmPassword: '', showPassword: false });
+  const [registerForm, setRegisterForm] = useState({ name: '', email: '', password: '', confirmPassword: '', phone: '', showPassword: false });
   const { login, register } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -42,10 +42,10 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
     
     setIsLoading(true);
     
-    const success = await register(registerForm.name, registerForm.email, registerForm.password);
+    const success = await register(registerForm.name, registerForm.email, registerForm.password, registerForm.phone || undefined);
     if (success) {
       onClose();
-      setRegisterForm({ name: '', email: '', password: '', confirmPassword: '', showPassword: false });
+      setRegisterForm({ name: '', email: '', password: '', confirmPassword: '', phone: '', showPassword: false });
     }
     
     setIsLoading(false);
@@ -183,6 +183,21 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
                         required
                       />
                     </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="register-phone">Phone Number (optional)</Label>
+                    <div className="relative">
+                      <Phone className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <Input
+                        id="register-phone"
+                        type="tel"
+                        placeholder="+254700000000"
+                        className="pl-10"
+                        value={registerForm.phone}
+                        onChange={(e) => setRegisterForm(prev => ({ ...prev, phone: e.target.value }))}
+                      />
+                    </div>
+                    <p className="text-xs text-gray-500">Used to receive SMS notifications about your items.</p>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="register-password">Password</Label>

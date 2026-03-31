@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Search, MapPin, Calendar, User, Shield, Plus, Bell, Eye } from 'lucide-react';
-import { useToast } from "@/hooks/use-toast";
+import { Search, User, Shield, Plus } from 'lucide-react';
 import AuthModal from '@/components/auth/AuthModal';
 import ReportItemModal from '@/components/items/ReportItemModal';
 import ItemCard from '@/components/items/ItemCard';
@@ -26,17 +25,11 @@ const Index = () => {
   const [activeTab, setActiveTab] = useState('search');
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
-  const { user, isAdmin, logout } = useAuth();
-  const { items, loading, searchItems, fetchItems } = useItems();
-  const { toast } = useToast();
+  const { user, isAdmin } = useAuth();
+  const { items, loading, fetchItems } = useItems();
   const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
 
-
   const categories = ['all', 'electronics', 'clothing', 'accessories', 'documents', 'keys', 'bags', 'other'];
-
-  useEffect(() => {
-    searchItems(searchQuery, selectedCategory);
-  }, [searchQuery, selectedCategory]);
 
   const handleReportItem = (type: 'lost' | 'found') => {
     if (!user) {
@@ -83,14 +76,24 @@ const handleViewDetails = (item: Item) => {
             
             <div className="flex items-center space-x-4">
               {user && (
-                <Button
-                  size="sm"
-                  className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
-                  onClick={() => handleReportItem('lost')}
-                >
-                  <Plus className="w-4 h-4 mr-1" />
-                  Report Item
-                </Button>
+                <div className="flex gap-2">
+                  <Button
+                    size="sm"
+                    className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800"
+                    onClick={() => handleReportItem('lost')}
+                  >
+                    <Plus className="w-4 h-4 mr-1" />
+                    Report Lost
+                  </Button>
+                  <Button
+                    size="sm"
+                    className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800"
+                    onClick={() => handleReportItem('found')}
+                  >
+                    <Plus className="w-4 h-4 mr-1" />
+                    Report Found
+                  </Button>
+                </div>
               )}
               {user && <NotificationCenter />}
               
