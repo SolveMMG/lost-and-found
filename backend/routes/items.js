@@ -25,7 +25,8 @@ router.get('/', async (_req, res) => {
       include: { reporter: true, owner: true, claims: true },
     });
     res.json(items.map(mapItem));
-  } catch {
+  } catch (err) {
+    console.error('GET /items error:', err);
     res.status(500).json({ error: 'Failed to fetch items' });
   }
 });
@@ -86,7 +87,8 @@ router.post('/', requireAuth, async (req, res) => {
     );
 
     res.status(201).json(mapItem(item));
-  } catch {
+  } catch (err) {
+    console.error('POST /items error:', err);
     res.status(500).json({ error: 'Failed to create item' });
   }
 });
@@ -140,7 +142,8 @@ router.post('/:id/claim', requireAuth, async (req, res) => {
     );
 
     res.json({ message: 'Claim submitted. Admin will review your request.' });
-  } catch {
+  } catch (err) {
+    console.error('POST /claim error:', err);
     res.status(500).json({ error: 'Failed to submit claim' });
   }
 });
@@ -193,7 +196,8 @@ router.patch('/:id/claims/:claimId/approve', requireAuth, async (req, res) => {
     }
 
     res.json({ message: 'Claim approved', claim });
-  } catch {
+  } catch (err) {
+    console.error('PATCH /approve error:', err);
     res.status(500).json({ error: 'Failed to approve claim' });
   }
 });
@@ -218,7 +222,8 @@ router.patch('/:id/claims/:claimId/deny', requireAuth, async (req, res) => {
     );
 
     res.json({ message: 'Claim denied', claim });
-  } catch {
+  } catch (err) {
+    console.error('PATCH /deny error:', err);
     res.status(500).json({ error: 'Failed to deny claim' });
   }
 });

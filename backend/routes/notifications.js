@@ -12,7 +12,8 @@ router.get('/', auth, async (req, res) => {
       take: 50,
     });
     res.json(notifications);
-  } catch {
+  } catch (err) {
+    console.error('GET /notifications error:', err);
     res.status(500).json({ error: 'Failed to fetch notifications' });
   }
 });
@@ -25,7 +26,8 @@ router.patch('/:id/read', auth, async (req, res) => {
       data: { read: true },
     });
     res.json({ ok: true });
-  } catch {
+  } catch (err) {
+    console.error('PATCH /notifications/:id/read error:', err);
     res.status(500).json({ error: 'Failed to mark notification as read' });
   }
 });
@@ -38,7 +40,8 @@ router.patch('/read-all', auth, async (req, res) => {
       data: { read: true },
     });
     res.json({ ok: true });
-  } catch {
+  } catch (err) {
+    console.error('PATCH /notifications/read-all error:', err);
     res.status(500).json({ error: 'Failed to mark all notifications as read' });
   }
 });
@@ -50,7 +53,8 @@ router.delete('/:id', auth, async (req, res) => {
       where: { id: req.params.id, userId: req.user.id },
     });
     res.json({ ok: true });
-  } catch {
+  } catch (err) {
+    console.error('DELETE /notifications/:id error:', err);
     res.status(500).json({ error: 'Failed to delete notification' });
   }
 });

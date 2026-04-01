@@ -18,6 +18,6 @@
     "prisma": "^6.11.1"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "npx prisma migrate deploy && node index.js"
   }
 }
